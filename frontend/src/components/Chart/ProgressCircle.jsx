@@ -3,8 +3,8 @@ import { Box, Typography } from "@mui/material";
 const ProgressCircle = ({ progress = 0, size = 40, showText = false, text = "" }) => {
     const angle = (progress / 100) * 360;
     const primaryColor = "#1F2A40";
-    const blueAccentColor = "#6870fa";
-    const greenAccentColor = "#4cceac";
+    const blueAccentColor = "#0c101b";
+    const greenAccentColor = "#6870fa";
 
     return (
         <Box

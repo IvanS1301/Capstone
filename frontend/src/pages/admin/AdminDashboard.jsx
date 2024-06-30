@@ -58,7 +58,7 @@ const AdminDashboard = () => {
         return (
             <div className="min-h-screen flex flex-col justify-center items-center">
                 <CircularProgress />
-                <p className="text-gray-500 text-2xl font-semibold mt-10 justify-center items-center">Loading...</p>
+                <p className="text-gray-800 text-2xl font-semibold mt-10 justify-center items-center">Loading...</p>
             </div>
         );
     }
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
     if (!inventory || !recentBookings) {
         return (
             <div className="min-h-screen flex justify-center items-center">
-                <p className="text-gray-500 text-2xl font-semibold">Failed to load data. Please try again later.</p>
+                <p className="text-gray-800 text-2xl font-semibold">Failed to load data. Please try again later.</p>
             </div>
         );
     }
@@ -74,10 +74,14 @@ const AdminDashboard = () => {
     return (
         <div className="flex">
             <AdminSidebar />
-            <div>
+            <div className="flex flex-col w-full overflow-y-hidden">
                 <AdminNavbar />
-                <div className="p-1">
-                    <DashboardTabs inventory={inventory} recentBookings={recentBookings} />
+                <div className="p-1 flex-grow flex justify-center items-center">
+                    <div className="flex flex-col w-full items-center overflow-y-hidden">
+                        <div className="w-full">
+                            <DashboardTabs inventory={inventory} recentBookings={recentBookings} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

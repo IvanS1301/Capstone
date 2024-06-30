@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 /** --- MATERIAL UI --- */
-import { Box, IconButton, Modal, CircularProgress, Button, Snackbar } from "@mui/material";
+import { Box, IconButton, Modal, CircularProgress, Button, Snackbar, Typography } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Delete, Visibility } from '@mui/icons-material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -12,8 +12,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { useLeadsContext } from "../../hooks/useLeadsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-/** --- IMPORT CHART DESIGN AND TIME AND DATE FORMAT --- */
-import Header from '../Chart/Header';
+/** --- IMPORT TIME AND DATE FORMAT --- */
 import moment from 'moment';
 
 /** --- FOR MODAL --- */
@@ -102,7 +101,7 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
     setSelectedLeadId(null);
   };
 
-  const iconButtonStyle = { color: "#e0e0e0" };
+  const iconButtonStyle = { color: "#111827" };
 
   // Custom rendering function for status
   const renderStatusCell = (params) => {
@@ -136,14 +135,14 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
       headerName: "ID",
       flex: 1,
       minWidth: 90,
-      renderCell: (params) => params.value.slice(20, 26)
+      renderCell: (params) => params.value.slice(20, 26),
+      cellClassName: "name-column--cell",
     },
     {
       field: "name",
       headerName: "Name",
       flex: 1,
       minWidth: 230,
-      cellClassName: "name-column--cell",
     },
     {
       field: "type",
@@ -163,7 +162,6 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
       flex: 1,
       minWidth: 160,
       renderCell: (params) => userIdToNameMap[params.value] || params.value,
-      cellClassName: "name-column--cell",
     },
     {
       field: "callDisposition",
@@ -178,7 +176,6 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
       flex: 1,
       minWidth: 150,
       renderCell: (params) => userIdToNameMap[params.value] || params.value,
-      cellClassName: "name-column--cell",
     },
     {
       field: "Distributed",
@@ -217,10 +214,19 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
 
   return (
     <Box m="20px">
-      <Header
-        title="LEADS"
-        subtitle="List of Leads"
-      />
+      <Box mb="20px">
+        <Typography
+          variant="h4"
+          color="#111827"
+          fontWeight="bold"
+          sx={{ m: "0 0 5px 0", mt: "25px" }}
+        >
+          LEADS
+            </Typography>
+        <Typography variant="h5" color="#111827">
+          List of Leads
+            </Typography>
+      </Box>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -230,20 +236,21 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
-            color: "#e0e0e0",
-            borderTop: "1px solid #525252",
+            color: "#111827",
+            borderTop: `1px solid #525252 !important`,
+            fontWeight: "600"
           },
           "& .name-column--cell": {
-            color: "#94e2cd",
+            color: "#1d4ed8",
           },
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: "#062438",
+            backgroundColor: "#111827",
             borderBottom: "none",
             color: "#e0e0e0",
             fontSize: "18px"
           },
           "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: "#101624",
+            backgroundColor: "#d1d5db",
             fontSize: "17px",
           },
           "& .MuiDataGrid-headerContainer": {
@@ -251,13 +258,14 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: "#062438",
+            backgroundColor: "#111827",
           },
           "& .MuiCheckbox-root": {
-            color: `#b7ebde !important`,
+            color: `#111827 !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `#e0e0e0 !important`,
+            color: `#111827 !important`,
+            fontWeight: "800"
           },
         }}
       >

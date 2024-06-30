@@ -23,7 +23,7 @@ const ViewLead = ({ leadId }) => {
       <Paper elevation={3} sx={{ padding: 5, borderRadius: 6, boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.065)', backgroundColor: '#041926' }}>
 
         <Box mb={3} textAlign="center" style={{ backgroundColor: '#9c1c1c', padding: '3px', borderTopLeftRadius: '6px', borderTopRightRadius: '6px', marginTop: '4px' }}>
-          <Typography variant="h4" component="h1" gutterBottom style={{ color: '#e0e0e0' }}>
+          <Typography variant="h4" component="h1" gutterBottom style={{ color: '#e0e0e0', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', marginTop: '10px' }}>
             {lead.name}
           </Typography>
         </Box>

@@ -65,9 +65,9 @@ const ViewProfile = ({ onUserUpdate }) => {
                         />
                     </Box>
                     <Box flexBasis="70%" paddingX={4}>
-                        <Typography variant="h3" style={{ fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>{userlg.name}</Typography>
-                        <Typography variant="h5" color="#94e2cd" gutterBottom>{userlg.role}</Typography>
-                        <Typography variant="body1" color="error" gutterBottom>{userlg.status}</Typography>
+                        <Typography variant="h3" style={{ fontWeight: 'bold', color: '#111827', marginBottom: '8px' }}>{userlg.name}</Typography>
+                        <Typography variant="h5" color="#065f46" fontWeight="bold" gutterBottom>{userlg.role}</Typography>
+                        <Typography variant="body1" color="error" fontWeight="bold" gutterBottom>{userlg.status}</Typography>
                         <Box marginTop={4} display="flex" gap={2}>
                             <Button variant="contained" sx={{ backgroundColor: '#3e4396' }} onClick={handleOpenEditModal}>
                                 Update Profile

@@ -19,9 +19,9 @@ const LoginLG = () => {
   }
 
   return (
-    <section className="bg-[#0c101b] min-h-screen flex items-center justify-center">
-      <div className="bg-[#041926] flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
-        <div className="md:w-1/2 px-8 md:px-16">
+    <section className="bg-[#111827] min-h-screen flex items-center justify-center">
+      <div className="bg-[#041926] flex rounded-2xl shadow-lg max-w-3xl p-5 py-5 items-center">
+        <div className="md:w-1/2 px-8 md:px-11">
           <img
             src={process.env.PUBLIC_URL + '/logo.png'}
             alt="logo"
@@ -32,7 +32,7 @@ const LoginLG = () => {
 
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
-              className="p-2 mt-8 rounded-xl border"
+              className="p-3 mt-8 rounded-xl border"
               type="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -41,7 +41,7 @@ const LoginLG = () => {
 
             <div className="relative">
               <input
-                className="p-2 rounded-xl border w-full"
+                className="p-3 rounded-xl border w-full"
                 type={showPassword ? "text" : "password"} // Toggle input type based on state
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
@@ -78,12 +78,12 @@ const LoginLG = () => {
           </button>
           </Link>
 
-          <div className="mt-5 text-xs border-b border-[#f4f5fd] py-4 text-[#f4f5fd]">
+          <div className="mt-5 text-xs border-b border-[#f4f5fd] py-5 text-[#f4f5fd]">
             Create an account with your Team Leader first!
           </div>
         </div>
 
-        <div className="md:block hidden w-1/2">
+        <div className="md:block hidden w-1/2 mr-2">
           <img src={process.env.PUBLIC_URL + '/slay.png'} alt="Chromagen Logo" className="rounded-2xl shadow-lg" />
         </div>
       </div>

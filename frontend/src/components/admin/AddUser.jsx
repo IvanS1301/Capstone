@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 
 /** --- MATERIAL UI --- */
-import { Box, Button, TextField } from "@mui/material";
-import { FormControl, InputLabel, Select as MuiSelect, MenuItem, Modal, CircularProgress } from '@mui/material';
+import { Box, Button, TextField, FormControl, InputLabel, Select as MuiSelect, MenuItem, Modal, CircularProgress } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
-/** --- IMPORT CHART DESIGN --- */
-import Header from '../Chart/Header';
 
 /** --- IMPORT CONTEXT --- */
 import { useUsersContext } from "../../hooks/useUsersContext";
@@ -85,78 +81,167 @@ const AddUser = () => {
     };
 
     return (
-        <Box m="20px" width="1950px">
-            <Header title="CREATE USER" subtitle="Create a New User Profile" />
-
-            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                <Box
-                    display="grid"
-                    gap="30px"
-                    gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                >
-                    <TextField
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Full Name"
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                        name="fullName"
-                        sx={{ gridColumn: "span 4", backgroundColor: "#c2c2c2" }}
+        <Box display="flex" justifyContent="center" mt={6} sx={{ width: '100%', height: '70vh', padding: '10px', maxWidth: '1200px', mx: 'auto' }}>
+            <Box className="w-full max-w-xl mx-auto p-12 bg-[#062438] rounded-lg shadow-md">
+                <div className="flex items-center justify-center mb-6">
+                    <img
+                        src={process.env.PUBLIC_URL + '/logo.png'}
+                        alt="logo"
+                        className="image-xl mt-3 rounded cursor-pointer"
                     />
-                    <TextField
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        name="email"
-                        sx={{ gridColumn: "span 4", backgroundColor: "#c2c2c2" }}
-                    />
-                    <Box sx={{ position: 'relative', gridColumn: 'span 4' }}>
+                    <h2 className="font-bold text-3xl text-center text-[#f4f5fd] mt-3 ml-3">Chromagen</h2>
+                </div>
+                <h2 className='text-xl text-center text-[#4cceac] mb-7 ml-4'>Create New User</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className='mb-6'>
+                        <label className="block text-white text-sm font-semibold mb-2" htmlFor="fullName">Full Name</label>
                         <TextField
                             fullWidth
-                            variant="filled"
+                            variant="outlined"
+                            type="text"
+                            placeholder="Full Name"
+                            onChange={(e) => setName(e.target.value)}
+                            value={name}
+                            name="fullName"
+                            required
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    backgroundColor: '#4b5563',
+                                    color: '#ffffff',
+                                    '& fieldset': {
+                                        borderColor: 'transparent',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#3b82f6',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#3b82f6',
+                                    },
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: '#ffffff',
+                                },
+                            }}
+                        />
+                    </div>
+                    <div className='mb-6'>
+                        <label className="block text-white text-sm font-semibold mb-2" htmlFor="email">Email</label>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            type="email"
+                            placeholder="chromagen@sortr.com.au"
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            name="email"
+                            required
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    backgroundColor: '#4b5563',
+                                    color: '#ffffff',
+                                    '& fieldset': {
+                                        borderColor: 'transparent',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#3b82f6',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#3b82f6',
+                                    },
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: '#ffffff',
+                                },
+                            }}
+                        />
+                    </div>
+                    <div className='mb-9'>
+                        <label className="block text-white text-sm font-semibold mb-2" htmlFor="password">Password</label>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
                             type={showPassword ? "text" : "password"}
-                            label="Password"
+                            placeholder="Enter unique password"
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
                             name="password"
-                            sx={{ backgroundColor: "#c2c2c2" }}
+                            required
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    backgroundColor: '#4b5563',
+                                    color: '#ffffff',
+                                    '& fieldset': {
+                                        borderColor: 'transparent',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#3b82f6',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#3b82f6',
+                                    },
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: '#ffffff',
+                                },
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <img
+                                        src={process.env.PUBLIC_URL + '/eye.svg'}
+                                        alt="eye"
+                                        className="cursor-pointer"
+                                        onClick={togglePasswordVisibility}
+                                    />
+                                ),
+                            }}
                         />
-                        <img
-                            src={process.env.PUBLIC_URL + '/eye.svg'}
-                            alt="eye"
-                            className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer"
-                            onClick={togglePasswordVisibility} // Toggle password visibility on click
-                        />
-                    </Box>
-
-                    <FormControl variant="outlined" fullWidth sx={{ gridColumn: "span 4", backgroundColor: "#c2c2c2" }}>
-                        <InputLabel id="role">Select Role</InputLabel>
-                        <MuiSelect
-                            label="Select Role"
-                            labelId="role"
-                            value={role}
-                            onChange={(e) => setRole(e.target.value)}
+                    </div>
+                    <div className='mb-9'>
+                        <FormControl fullWidth variant="outlined" required>
+                            <InputLabel sx={{ color: '#ffffff' }}>Select Role</InputLabel>
+                            <MuiSelect
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                label="Select Role"
+                                sx={{
+                                    backgroundColor: '#4b5563',
+                                    color: '#ffffff',
+                                    '& .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: 'transparent',
+                                    },
+                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#3b82f6',
+                                    },
+                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#3b82f6',
+                                    },
+                                }}
+                            >
+                                <MenuItem value="">None</MenuItem>
+                                {roles.map((role) => (
+                                    <MenuItem key={role.value} value={role.value}>{role.label}</MenuItem>
+                                ))}
+                            </MuiSelect>
+                        </FormControl>
+                    </div>
+                    <div className='flex justify-center mt-14'>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            disabled={loading}
+                            sx={{
+                                bgcolor: '#9c1c1c',
+                                '&:hover': {
+                                    bgcolor: '#3b82f6',
+                                },
+                            }}
                         >
-                            <MenuItem value="">None</MenuItem>
-                            {
-                                roles.map(
-                                    role => (<MenuItem key={role.value} value={role.value}>{role.label}</MenuItem>)
-                                )
-                            }
-                        </MuiSelect>
-                    </FormControl>
-                </Box>
-
-                <Box display="flex" justifyContent="end" mt="30px">
-                    <Button type="submit" sx={{ backgroundColor: '#9c1c1c' }} variant="contained">
-                        {loading ? <CircularProgress size={24} /> : "Create New User"}
-                    </Button>
-                </Box>
-                {error && <div>{error}</div>}
+                            {loading ? <CircularProgress size={24} /> : "Add New User"}
+                        </Button>
+                    </div>
+                    {error && <div className="text-red-500 mt-2 text-center">{error}</div>}
+                </form>
             </Box>
 
             <Modal
@@ -168,7 +253,7 @@ const AddUser = () => {
                     sx={{
                         position: 'absolute',
                         top: '50%',
-                        left: '50%',
+                        left: '56%',
                         transform: 'translate(-50%, -50%)',
                         width: 400,
                         bgcolor: '#f1f1f1',
@@ -180,7 +265,7 @@ const AddUser = () => {
                     }}
                 >
                     <CircularProgress sx={{ fontSize: 60 }} />
-                    <div style={{ fontSize: '20px', marginTop: '10px' }}>Adding user, please wait...</div>
+                    <div style={{ fontSize: '20px', marginTop: '10px' }}>Saving, please wait...</div>
                 </Box>
             </Modal>
 
@@ -194,7 +279,7 @@ const AddUser = () => {
                     sx={{
                         position: 'absolute',
                         top: '50%',
-                        left: '50%',
+                        left: '56%',
                         transform: 'translate(-50%, -50%)',
                         width: 400,
                         bgcolor: '#f1f1f1',
