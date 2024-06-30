@@ -69,7 +69,7 @@ const LeadGenSidebar = () => {
         <Sidebar
             collapsed={isCollapsed}
             width={isCollapsed ? "90px" : "290px"}
-            backgroundColor="#062438"
+            backgroundColor="#111827"
             className="min-h-screen"
             style={{ borderRight: "none" }}
         >
@@ -79,16 +79,8 @@ const LeadGenSidebar = () => {
                         return {
                             backgroundColor: active ? "#0c101b" : undefined,
                             color: active ? 'white' : undefined,
-                            borderTopLeftRadius: "30px !important",
-                            borderBottomLeftRadius: "30px !important",
-                            borderTopRightRadius: "0px !important",
-                            borderBottomRightRadius: "0px !important",
                             "&:hover": {
                                 backgroundColor: "#0c101b",
-                                borderTopLeftRadius: "30px !important",
-                                borderBottomLeftRadius: "30px !important",
-                                borderTopRightRadius: "0px !important",
-                                borderBottomRightRadius: "0px !important"
                             }
                         }
                     }

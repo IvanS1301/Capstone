@@ -57,9 +57,9 @@ const ViewUserAG = ({ onUserUpdate }) => {
                         />
                     </Box>
                     <Box flexBasis="70%" paddingX={4}>
-                        <Typography variant="h3" style={{ fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>{userlg.name}</Typography>
-                        <Typography variant="h5" color="#94e2cd" gutterBottom>{userlg.role}</Typography>
-                        <Typography variant="body1" color="error" gutterBottom>{userlg.status}</Typography>
+                        <Typography variant="h3" style={{ fontWeight: 'bold', color: '#111827', marginBottom: '8px' }}>{userlg.name}</Typography>
+                        <Typography variant="h5" color="#065f46" fontWeight="bold" gutterBottom>{userlg.role}</Typography>
+                        <Typography variant="body1" color="error" fontWeight="bold" gutterBottom>{userlg.status}</Typography>
                         <Box marginTop={4} display="flex" gap={2}>
                             <Button variant="contained" sx={{ backgroundColor: '#3e4396' }} onClick={handleOpenEditModal}>
                                 Update Profile
@@ -121,7 +121,7 @@ const ViewUserAG = ({ onUserUpdate }) => {
             >
                 <Fade in={openEditModal}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                        <EditUserAG userId={userlg._id} onClose={handleCloseEditModal} onUserUpdate={onUserUpdate}/>
+                        <EditUserAG userId={userlg._id} onClose={handleCloseEditModal} onUserUpdate={onUserUpdate} />
                     </Box>
                 </Fade>
             </Modal>
@@ -138,7 +138,7 @@ const ViewUserAG = ({ onUserUpdate }) => {
             >
                 <Fade in={openStatusModal}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                        <AgentStatus userId={userlg._id} onUserUpdate={onUserUpdate}/>
+                        <AgentStatus userId={userlg._id} onUserUpdate={onUserUpdate} />
                     </Box>
                 </Fade>
             </Modal>

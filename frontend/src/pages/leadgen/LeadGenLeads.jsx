@@ -18,6 +18,7 @@ const LeadGenLeads = () => {
   const { userlgs, dispatch: dispatchUsers } = useUsersContext()
   const { userLG } = useAuthContext()
   const [loading, setLoading] = useState(true); // Initialize loading state
+  const [filteredLeads, setFilteredLeads] = useState([]); // State to hold filtered leads
 
   const fetchLeads = useCallback(async () => {
     try {
@@ -28,6 +29,7 @@ const LeadGenLeads = () => {
 
       if (response.ok) {
         dispatch({ type: 'SET_LEADS', payload: json })
+        setFilteredLeads(json); // Initialize filteredLeads with all leads initially
       }
       setLoading(false); // Set loading to false when data fetching is complete
     } catch (error) {
@@ -60,18 +62,36 @@ const LeadGenLeads = () => {
     fetchUsers()
   }, [dispatchUsers])
 
+  // Function to handle search
+  const handleSearch = useCallback((query) => {
+    const lowerCaseQuery = query.toLowerCase(); // Convert query to lowercase for case-insensitive search
+
+    if (lowerCaseQuery.trim() === "") {
+      setFilteredLeads(leads); // If query is empty, show all leads
+    } else {
+      const filtered = leads.filter((lead) => {
+        const name = lead.name ? lead.name.toLowerCase() : ''; // Check if lead.name is defined
+        const type = lead.type ? lead.type.toLowerCase() : '';
+        const assignedTo = lead.assignedTo ? lead.assignedTo.toLowerCase() : '';
+
+        return name.includes(lowerCaseQuery) || type.includes(lowerCaseQuery) || assignedTo.includes(lowerCaseQuery)
+      });
+      setFilteredLeads(filtered);
+    }
+  }, [leads]);
+
   return (
     <div className="flex">
       <LeadGenSidebar />
       <div className="flex flex-col w-full overflow-y-hidden">
-        <LeadGenNavbar />
+        <LeadGenNavbar onSearch={handleSearch}/>
         <div className="p-1 flex-grow flex justify-center items-center">
           {loading ? (
             <CircularProgress />
           ) : (
               <div className="flex flex-col w-full items-center overflow-y-hidden">
                 <div className="w-full">
-                  <LeadDetails leads={leads} userlgs={userlgs} onLeadUpdate={handleLeadUpdate} />
+                  <LeadDetails leads={filteredLeads} userlgs={userlgs} onLeadUpdate={handleLeadUpdate} />
                 </div>
               </div>
             )}

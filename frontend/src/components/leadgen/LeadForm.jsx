@@ -85,11 +85,11 @@ const LeadForm = () => {
       sx={{
         position: 'absolute',
         top: '50%',
-        left: '50%',
+        left: '55%',
         transform: 'translate(-50%, -50%)',
         width: 800,
         bgcolor: '#f1f1f1',
-        border: '2px solid #000',
+        border: '2px solid #f1f1f1',
         boxShadow: 24,
         p: 6,
         borderRadius: '30px'
@@ -219,7 +219,7 @@ const LeadForm = () => {
           sx={{
             position: 'absolute',
             top: '50%',
-            left: '50%',
+            left: '55%',
             transform: 'translate(-50%, -50%)',
             width: 400,
             bgcolor: '#f1f1f1',
@@ -244,7 +244,7 @@ const LeadForm = () => {
           sx={{
             position: 'absolute',
             top: '50%',
-            left: '50%',
+            left: '55%',
             transform: 'translate(-50%, -50%)',
             width: 400,
             bgcolor: '#f1f1f1',

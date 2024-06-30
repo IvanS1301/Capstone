@@ -19,7 +19,7 @@ const LoginLG = () => {
   }
 
   return (
-    <section className="bg-[#111827] min-h-screen flex items-center justify-center">
+    <section className="bg-[#b1b4ba] min-h-screen flex items-center justify-center">
       <div className="bg-[#041926] flex rounded-2xl shadow-lg max-w-3xl p-5 py-5 items-center">
         <div className="md:w-1/2 px-8 md:px-11">
           <img

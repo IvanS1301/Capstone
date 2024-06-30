@@ -18,6 +18,8 @@ const AgentEmails = () => {
   const { userlgs, dispatch: dispatchUsers } = useUsersContext()
   const { userLG } = useAuthContext()
   const [loading, setLoading] = useState(true); // Initialize loading state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredEmails, setFilteredEmails] = useState([]);
 
   const fetchEmails = useCallback(async () => {
     try {
@@ -28,6 +30,7 @@ const AgentEmails = () => {
 
       if (response.ok) {
         dispatch({ type: 'SET_EMAILS_AGENT', payload: json })
+        setFilteredEmails(json); // Initialize filteredEmails with all emails
       }
       setLoading(false); // Set loading to false when data fetching is complete
     } catch (error) {
@@ -60,18 +63,36 @@ const AgentEmails = () => {
     fetchEmails();
   }, [fetchEmails]);
 
+  const handleSearch = useCallback((query) => {
+    const lowerCaseQuery = query.toLowerCase();
+
+    setSearchQuery(query); // Update search query state
+
+    if (query.trim() === "") {
+      setFilteredEmails(emails); // If query is empty, show all emails
+    } else {
+      const filtered = emails.filter((email) => {
+        const from = email.from ? email.from.toLowerCase() : '';
+        const to = email.to ? email.to.toLowerCase() : '';
+
+        return from.includes(lowerCaseQuery) || to.includes(lowerCaseQuery);
+      });
+      setFilteredEmails(filtered);
+    }
+  }, [emails]);
+
   return (
     <div className="flex">
       <AgentSidebar />
       <div className="flex flex-col w-full overflow-y-hidden">
-        <AgentNavbar />
+        <AgentNavbar onSearch={handleSearch} />
         <div className="p-1 flex-grow flex justify-center items-center">
           {loading ? (
             <CircularProgress />
           ) : (
               <div className="flex flex-col w-full items-center overflow-y-hidden">
                 <div className="w-full">
-                  <AgentEmailList emails={emails} userlgs={userlgs} onEmailDelete={handleEmailDelete} />
+                  <AgentEmailList emails={searchQuery ? filteredEmails : emails} userlgs={userlgs} onEmailDelete={handleEmailDelete} />
                 </div>
               </div>
             )}

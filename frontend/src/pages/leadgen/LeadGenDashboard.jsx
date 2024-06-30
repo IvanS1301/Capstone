@@ -68,7 +68,7 @@ const LeadGenDashboard = () => {
         return (
             <div className="min-h-screen flex flex-col justify-center items-center">
                 <CircularProgress />
-                <p className="text-gray-500 text-2xl font-semibold mt-10 justify-center items-center">Loading...</p>
+                <p className="text-gray-800 text-2xl font-semibold mt-10 justify-center items-center">Loading...</p>
             </div>
         );
     }
@@ -76,7 +76,7 @@ const LeadGenDashboard = () => {
     if (!userLeadGenStats) {
         return (
             <div className="min-h-screen flex justify-center items-center">
-                <p className="text-gray-500 text-2xl font-semibold">Failed to load data. Please try again later.</p>
+                <p className="text-gray-800 text-2xl font-semibold">Failed to load data. Please try again later.</p>
             </div>
         );
     }

@@ -95,7 +95,7 @@ const UpdateLeadForm = ({ leadId, onLeadUpdate }) => {
                 transform: 'translate(-50%, -50%)',
                 width: 800,
                 bgcolor: '#f1f1f1',
-                border: '2px solid #000',
+                border: '2px solid #f1f1f1',
                 boxShadow: 24,
                 p: 5,
                 borderRadius: '30px'

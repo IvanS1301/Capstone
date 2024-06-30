@@ -93,10 +93,8 @@ const AdminSidebar = () => {
             return {
               backgroundColor: active ? "#0c101b" : undefined,
               color: active ? 'white' : undefined,
-
               "&:hover": {
                 backgroundColor: "#0c101b",
-
               }
             }
           }

@@ -68,7 +68,7 @@ const AgentDashboard = () => {
         return (
             <div className="min-h-screen flex flex-col justify-center items-center">
                 <CircularProgress />
-                <p className="text-gray-500 text-2xl font-semibold mt-10 justify-center items-center">Loading...</p>
+                <p className="text-gray-800 text-2xl font-semibold mt-10 justify-center items-center">Loading...</p>
             </div>
         );
     }
@@ -76,7 +76,7 @@ const AgentDashboard = () => {
     if (!userBookedUnits) {
         return (
             <div className="min-h-screen flex justify-center items-center">
-                <p className="text-gray-500 text-2xl font-semibold">Failed to load data. Please try again later.</p>
+                <p className="text-gray-800 text-2xl font-semibold">Failed to load data. Please try again later.</p>
             </div>
         );
     }
@@ -84,10 +84,14 @@ const AgentDashboard = () => {
     return (
         <div className="flex">
             <AgentSidebar />
-            <div>
+            <div className="flex flex-col w-full overflow-y-hidden">
                 <AgentNavbar />
-                <div className="p-1">
-                    <AGDashboardTabs bookedUnits={userBookedUnits} unassignedLeads={unassignedLeads} />
+                <div className="p-1 flex-grow flex justify-center items-center">
+                    <div className="flex flex-col w-full items-center overflow-y-hidden">
+                        <div className="w-full">
+                            <AGDashboardTabs bookedUnits={userBookedUnits} unassignedLeads={unassignedLeads} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

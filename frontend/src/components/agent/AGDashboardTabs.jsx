@@ -3,8 +3,9 @@ import { Box, Button, Typography } from "@mui/material";
 /** --- OTHER MATERIAL UI ICONS --- */
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { PeopleOutlined, ContactsOutlined } from "@mui/icons-material";
+import { ContactsOutlined } from "@mui/icons-material";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 
 /** --- CALL DISPOSITION ICONS --- */
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
@@ -19,7 +20,6 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 /** --- IMPORT CHART --- */
 import Header from '../Chart/Header';
-import StatBox from '../Chart/StatBox';
 import ProgressCircle from "../Chart/ProgressCircle";
 
 /** --- TIME AND DATE FORMAT --- */
@@ -39,23 +39,6 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
     const noAnswerCount = bookedUnits.callDispositionCreated ? bookedUnits.callDispositionCreated["No Answer"] || 0 : 0;
     const notInterested = bookedUnits.callDispositionCreated ? bookedUnits.callDispositionCreated["Not Interested"] || 0 : 0;
     const voicemailCount = bookedUnits.callDispositionCreated ? bookedUnits.callDispositionCreated["Voicemail"] || 0 : 0;
-
-    /** --- PROGRESS CIRCLE FORMAT --- */
-    const totalLeadsProgress = (bookedUnits.totalAssignedLeads / bookedUnits.totalAssignedLeads) * 100;
-    const totalLeadsIncrease = ((bookedUnits.totalAssignedLeads / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-
-    /** --- INCREASE FORMAT PERCENTAGE --- */
-    const statusIncrease = ((bookedUnits.totalAssignedLeads - bookedUnits.assignedLeadsAvailable) / bookedUnits.totalAssignedLeads * 100).toFixed(2);
-    const availableIncrease = ((bookedUnits.totalAssignedLeads - bookedUnits.assignedLeadStatus) / bookedUnits.totalAssignedLeads * 100).toFixed(2);
-    const notEligibleIncrease = ((notEligibleCount / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-    const installedIncrease = ((alreadyInstalledCount / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-    const wrongIncrease = ((notWorkingCount / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-    const callBackIncrease = ((callbackCount / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-    const doNotCallIncrease = ((doNotCallCount / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-    const noAnswerIncrease = ((noAnswerCount / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-    const notInterestedIncrease = ((notInterested / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-    const voicemailIncrease = ((voicemailCount / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
-    const residentialIncrease = ((residentialCount / bookedUnits.totalAssignedLeads) * 100).toFixed(2);
 
     /** --- HEADER SUBTITLE FORMAT --- */
     const formattedDate = moment(bookedUnits.updatedAt).format('MMMM Do YYYY, h:mm:ss a');
@@ -138,7 +121,7 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
     return (
         <Box m="20px">
             {/* HEADER */}
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ backgroundColor: "#111827", padding: "1px 5px", borderRadius: "8px", marginBottom: "20px" }}>
                 <Header title="DASHBOARD" subtitle={`as of ${formattedDate}`} />
 
                 <Box>
@@ -150,6 +133,7 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
                             fontSize: "14px",
                             fontWeight: "bold",
                             padding: "10px 20px",
+                            mr: "30px"
                         }}
                     >
                         <DownloadOutlinedIcon sx={{ mr: "10px" }} />
@@ -163,84 +147,45 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
                 display="grid"
                 gridTemplateColumns="repeat(12, 1fr)"
                 gridAutoRows="140px"
-                gap="20px"
+                gap="15px"
             >
                 {/* ROW 1 */}
                 <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
+                    gridColumn="span 9"
                     display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+                    gap="20px"
+                    backgroundColor="#212e4a"
+                    p="20px"
+                    borderRadius="18px"
                 >
-                    <StatBox
-                        title={bookedUnits.assignedLeadStatus}
-                        subtitle="Lead Status"
-                        progress={bookedUnits.totalAssignedLeads - bookedUnits.assignedLeadsAvailable}
-                        increase={`${statusIncrease}%`}
-                        icon={
-                            <ContactsOutlined
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={bookedUnits.assignedYesterday}
-                        subtitle="Assigned Yesterday"
-                        progress={bookedUnits.assignedYesterday}
-                        increase={bookedUnits.assignedYesterday}
-                        icon={
-                            <PeopleOutlined
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={bookedUnits.assignedLeadsAvailable}
-                        subtitle="Leads Available"
-                        progress={bookedUnits.totalAssignedLeads - bookedUnits.assignedLeadStatus}
-                        increase={`${availableIncrease}%`}
-                        icon={
-                            <AssignmentTurnedInIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={bookedUnits.totalAssignedLeads}
-                        subtitle="Total Assigned Leads"
-                        progress={totalLeadsProgress}
-                        increase={`${totalLeadsIncrease}%`}
-                        icon={
-                            <AssignmentIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <ContactsOutlined sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{bookedUnits.assignedLeadStatus}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Lead Status</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <WorkHistoryIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{bookedUnits.assignedYesterday}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Assigned Yesterday</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <AssignmentTurnedInIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{bookedUnits.assignedLeadsAvailable}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Leads Available</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <AssignmentIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{bookedUnits.totalAssignedLeads}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Total Assigned Leads</Typography>
+                        </Box>
+                    </Box>
                 </Box>
 
                 {/* ROW 2 */}
@@ -249,6 +194,7 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
                     gridRow="span 2"
                     backgroundColor="#101624"
                     p="30px"
+                    borderRadius="18px"
                 >
                     <Typography variant="h5" fontWeight="600" color="#e0e0e0">
                         New Assigned Leads
@@ -273,88 +219,116 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
                 <Box
                     gridColumn="span 9"
                     gridRow="span 3"
-                    backgroundColor="#101624"
-                    overflow="auto"
+                    backgroundColor="#d1d5db"
+                    borderRadius="18px"
+                    p="3px"
                 >
                     <Box
+                        backgroundColor="#111827"
+                        borderRadius="18px"
+                        overflow="hidden"
+                        m="20px" // Add margin to ensure proper alignment
+                        height="91%" // Ensure it takes the full height of the parent container
                         display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        borderBottom={`4px solid #1F2A40`}
-                        colors="#e0e0e0"
-                        p="15px"
+                        flexDirection="column"
                     >
-                        <Typography color="#e0e0e0" variant="h5" fontWeight="600">
-                            Recent Assigned Leads
-    </Typography>
-                    </Box>
-                    {unassignedLeads.map((unassigned) => (
                         <Box
-                            key={unassigned._id}
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
                             borderBottom={`4px solid #1F2A40`}
+                            colors="#e0e0e0"
                             p="15px"
+                            backgroundColor="#192231"
                         >
-                            <Box flex={1}>
-                                <Typography color="#e0e0e0" fontSize="17px">
-                                    {unassigned.name}
-                                </Typography>
-                            </Box>
-                            <Box flex={1} color="#e0e0e0" fontSize="17px">{unassigned.city}</Box>
-                            <Box
-                                flex={1}
-                                backgroundColor="#4cceac"
-                                p="5px 10px"
-                                borderRadius="4px"
-                                textAlign="center"
-                                maxWidth="100px" // Adjust the width as needed
-                            >
-                                {unassigned.type}
-                            </Box>
-                            <Box flex={1} textAlign="right">
-                                <Typography color="#e0e0e0" variant="body2" fontSize="17px">
-                                    {moment(unassigned.Distributed).format('MMM D, YYYY h:mm A')}
-                                </Typography>
-                            </Box>
+                            <Typography color="#e0e0e0" variant="h5" fontWeight="600">
+                                Recent Assigned Leads
+    </Typography>
                         </Box>
-                    ))}
+                        <Box flexGrow={1} display="flex" flexDirection="column" overflow="auto">
+                            {unassignedLeads.map((unassigned) => (
+                                <Box
+                                    key={unassigned._id}
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                    borderBottom={`2px solid #1F2A40`}
+                                    p="15px"
+                                >
+                                    <Box flex={1}>
+                                        <Typography color="#e0e0e0" fontSize="17px">
+                                            {unassigned.name}
+                                        </Typography>
+                                    </Box>
+                                    <Box flex={1} color="#e0e0e0" fontSize="17px">{unassigned.city}</Box>
+                                    <Box
+                                        flex={1}
+                                        backgroundColor="#43ba9b"
+                                        p="5px 10px"
+                                        borderRadius="4px"
+                                        textAlign="center"
+                                        maxWidth="100px" // Adjust the width as needed
+                                    >
+                                        {unassigned.type}
+                                    </Box>
+                                    <Box flex={1} textAlign="right">
+                                        <Typography color="#e0e0e0" variant="body2" fontSize="17px">
+                                            {moment(unassigned.Distributed).format('MMM D, YYYY h:mm A')}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            ))}
+                        </Box>
+                    </Box>
                 </Box>
 
                 {/* ROW 3 */}
                 <Box
                     gridColumn="span 3"
-                    gridRow="span 6"
-                    backgroundColor="#101624"
-                    overflow="auto"
+                    gridRow="span 7"
+                    backgroundColor="#d1d5db"
+                    borderRadius="8px"
+                    p="3px"
                 >
                     <Box
+                        backgroundColor="#111827"
+                        borderRadius="18px"
+                        overflow="hidden"
+                        m="20px" // Add margin to ensure proper alignment
+                        height="96%" // Ensure it takes the full height of the parent container
                         display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        borderBottom={`4px solid #1F2A40`}
-                        colors="#e0e0e0"
-                        p="15px"
+                        flexDirection="column"
                     >
-                        <Typography color="#e0e0e0" variant="h5" fontWeight="600">
-                            Types Received
+                        <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            borderBottom={`4px solid #1F2A40`}
+                            colors="#e0e0e0"
+                            p="15px"
+                            backgroundColor="#192231"
+                        >
+                            <Typography color="#e0e0e0" variant="h5" fontWeight="600">
+                                Types Received
                     </Typography>
+                        </Box>
+                        <Box flexGrow={1} display="flex" flexDirection="column" overflow="auto">
+                            {bookedUnits.typesReceived &&
+                                Object.entries(bookedUnits.typesReceived).map(([type, count]) => (
+                                    <Box
+                                        key={type}
+                                        display="flex"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                        borderBottom={`4px solid #1F2A40`}
+                                        p="25px"
+                                    >
+                                        <Typography color="#e0e0e0" fontSize="18px">{type}</Typography>
+                                        <Typography color="#4cceac" fontSize="18px">{count}</Typography>
+                                    </Box>
+                                ))}
+                        </Box>
                     </Box>
-                    {bookedUnits.typesReceived &&
-                        Object.entries(bookedUnits.typesReceived).map(([type, count]) => (
-                            <Box
-                                key={type}
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                borderBottom={`4px solid #1F2A40`}
-                                p="25px"
-                            >
-                                <Typography color="#e0e0e0" fontSize="18px">{type}</Typography>
-                                <Typography color="#4cceac" fontSize="18px">{count}</Typography>
-                            </Box>
-                        ))}
                 </Box>
 
                 <Box
@@ -362,6 +336,7 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
                     gridRow="span 2"
                     backgroundColor="#101624"
                     p="30px"
+                    borderRadius="18px"
                 >
                     <Typography variant="h5" fontWeight="600" color="#e0e0e0">
                         Emails Sent
@@ -387,6 +362,7 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
                     gridRow="span 2"
                     backgroundColor="#101624"
                     p="30px"
+                    borderRadius="18px"
                 >
                     <Typography variant="h5" fontWeight="600" color="#e0e0e0">
                         Booked
@@ -413,6 +389,7 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
                     gridRow="span 2"
                     backgroundColor="#101624"
                     p="30px"
+                    borderRadius="18px"
                 >
                     <Typography variant="h5" fontWeight="600" color="#e0e0e0">
                         Warm Lead
@@ -436,179 +413,98 @@ const AGDashboardTabs = ({ bookedUnits, unassignedLeads }) => {
 
                 {/* ROW 4 */}
                 <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
+                    gridColumn="span 9"
                     display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+                    gap="20px"
+                    backgroundColor="#d1d5db"
+                    p="20px"
+                    borderRadius="18px"
                 >
-                    <StatBox
-                        title={notEligibleCount}
-                        subtitle="Not Eligible"
-                        progress={notEligibleCount}
-                        increase={`${notEligibleIncrease}%`}
-                        icon={
-                            <NotInterestedIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={alreadyInstalledCount}
-                        subtitle="Already Installed"
-                        progress={alreadyInstalledCount}
-                        increase={`${installedIncrease}%`}
-                        icon={
-                            <DoneAllRoundedIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={notWorkingCount}
-                        subtitle="Wrong / Not Working"
-                        progress={notWorkingCount}
-                        increase={`${wrongIncrease}%`}
-                        icon={
-                            <ErrorRoundedIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <NotInterestedIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{notEligibleCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Not Eligible</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <DoneAllRoundedIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{alreadyInstalledCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Already Installed</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <ErrorRoundedIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{notWorkingCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Wrong / Not Working</Typography>
+                        </Box>
+                    </Box>
                 </Box>
 
                 {/* ROW 5 */}
                 <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
+                    gridColumn="span 9"
                     display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+                    gap="20px"
+                    backgroundColor="#d1d5db"
+                    p="20px"
+                    borderRadius="18px"
                 >
-                    <StatBox
-                        title={callbackCount}
-                        subtitle="Callback"
-                        progress={callbackCount}
-                        increase={`${callBackIncrease}%`}
-                        icon={
-                            <PhoneCallbackRoundedIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={doNotCallCount}
-                        subtitle="Do Not Call"
-                        progress={doNotCallCount}
-                        increase={`${doNotCallIncrease}%`}
-                        icon={
-                            <PhoneMissedRoundedIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={noAnswerCount}
-                        subtitle="No Answer"
-                        progress={noAnswerCount}
-                        increase={`${noAnswerIncrease}%`}
-                        icon={
-                            <PhoneDisabledRoundedIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <PhoneCallbackRoundedIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{callbackCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Callback</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <PhoneMissedRoundedIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{doNotCallCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Do Not Call</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <PhoneDisabledRoundedIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{noAnswerCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">No Answer</Typography>
+                        </Box>
+                    </Box>
                 </Box>
 
                 {/* ROW 6 */}
                 <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
+                    gridColumn="span 9"
                     display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+                    gap="20px"
+                    backgroundColor="#d1d5db"
+                    p="20px"
+                    borderRadius="18px"
                 >
-                    <StatBox
-                        title={notInterested}
-                        subtitle="Not Interested"
-                        progress={notInterested}
-                        increase={`${notInterestedIncrease}%`}
-                        icon={
-                            <ThumbDownIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={voicemailCount}
-                        subtitle="Voicemail"
-                        progress={voicemailCount}
-                        increase={`${voicemailIncrease}%`}
-                        icon={
-                            <VoicemailIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={residentialCount}
-                        subtitle="Residential"
-                        progress={residentialCount}
-                        increase={`${residentialIncrease}%`}
-                        icon={
-                            <HouseIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <ThumbDownIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{notInterested}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Not Interested</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <VoicemailIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{voicemailCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Voicemail</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <HouseIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{residentialCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Residential</Typography>
+                        </Box>
+                    </Box>
                 </Box>
             </Box>
         </Box>

@@ -148,7 +148,15 @@ const DashboardTabs = ({ inventory, recentBookings }) => {
                 gap="15px"
             >
                 {/* ROW 1 */}
-                <Box gridColumn="span 8" display="flex" gap="20px" backgroundColor="#f1f1f1" p="20px" borderRadius="8px">
+
+                <Box
+                    gridColumn="span 8"
+                    display="flex"
+                    gap="20px"
+                    backgroundColor="#212e4a"
+                    p="20px"
+                    borderRadius="8px"
+                >
                     <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
                         <ContactsOutlined sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
                         <Box>
@@ -206,10 +214,12 @@ const DashboardTabs = ({ inventory, recentBookings }) => {
                     </Box>
                 </Box>
 
+                {/* ROW 2 */}
+
                 <Box
                     gridColumn="span 8"
                     gridRow="span 3"
-                    backgroundColor="#f1f1f1"
+                    backgroundColor="#d1d5db"
                     borderRadius="8px"
                     p="20px"
                 >
@@ -230,7 +240,7 @@ const DashboardTabs = ({ inventory, recentBookings }) => {
                         >
                             <Typography color="#e0e0e0" variant="h5" fontWeight="600" flex={1} textAlign="left">
                                 Recent Bookings
-            </Typography>
+                            </Typography>
                         </Box>
                         <Box display="flex" flexDirection="column" height="100%">
                             <Box
@@ -244,16 +254,16 @@ const DashboardTabs = ({ inventory, recentBookings }) => {
                             >
                                 <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
                                     Telemarketer Name
-                </Typography>
+                                </Typography>
                                 <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
                                     Lead Name
-                </Typography>
+                                </Typography>
                                 <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
                                     Call Disposition
-                </Typography>
+                                </Typography>
                                 <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
                                     Date
-                </Typography>
+                                </Typography>
                             </Box>
                             <Box flexGrow={1} display="flex" flexDirection="column">
                                 {recentBookings.map((booking) => (
@@ -325,9 +335,16 @@ const DashboardTabs = ({ inventory, recentBookings }) => {
                     </Box>
                 </Box>
 
-                {/* ROW 2 */}
+                {/* ROW 3 */}
 
-                <Box gridColumn="span 8" display="flex" gap="20px" backgroundColor="#f1f1f1" p="20px" borderRadius="8px">
+                <Box
+                    gridColumn="span 8"
+                    display="flex"
+                    gap="20px"
+                    backgroundColor="#d1d5db"
+                    p="20px"
+                    borderRadius="8px"
+                >
                     <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
                         <ThumbDownIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
                         <Box>
@@ -385,9 +402,16 @@ const DashboardTabs = ({ inventory, recentBookings }) => {
                     </Box>
                 </Box>
 
-                {/* ROW 3 */}
+                {/* ROW 4 */}
 
-                <Box gridColumn="span 8" display="flex" gap="20px" backgroundColor="#f1f1f1" p="20px" borderRadius="8px">
+                <Box
+                    gridColumn="span 8"
+                    display="flex"
+                    gap="20px"
+                    backgroundColor="#d1d5db"
+                    p="20px"
+                    borderRadius="8px"
+                >
                     <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
                         <PhoneMissedRoundedIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
                         <Box>

@@ -2,24 +2,17 @@
 import { Box, Button, Typography } from "@mui/material";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import { ContactsOutlined } from "@mui/icons-material";
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import TodayIcon from '@mui/icons-material/Today';
 
 /** --- IMPORT CHART DESIGN --- */
 import Header from '../Chart/Header';
-import StatBox from '../Chart/StatBox';
 
 /** --- TIME AND DATE FORMAT --- */
 import moment from 'moment';
 
-
 const LGDashboardTabs = ({ leadGenStats, leads }) => {
-
-    /** --- INCREASE FORMAT PERCENTAGE --- */
-    const totalLeadsProgress = (leadGenStats.leadsCreated / leadGenStats.leadsCreated) * 100;
-    const totalLeadsIncrease = ((leadGenStats.leadsCreated / leadGenStats.leadsCreated) * 100).toFixed(2);
-    const assignedLeadsIncrease = ((leadGenStats.leadsCreated - leadGenStats.leadsAvailable) / leadGenStats.leadsCreated * 100).toFixed(2);
-    const unassignedLeadsIncrease = ((leadGenStats.leadsCreated - leadGenStats.leadsAssigned) / leadGenStats.leadsCreated * 100).toFixed(2);
 
     /** --- HEADER SUBTITLE FORMAT --- */
     const formattedDate = moment(leadGenStats.updatedAt).format('MMMM Do YYYY, h:mm:ss a');
@@ -27,7 +20,7 @@ const LGDashboardTabs = ({ leadGenStats, leads }) => {
     return (
         <Box m="20px">
             {/* HEADER */}
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ backgroundColor: "#111827", padding: "1px 5px", borderRadius: "8px", marginBottom: "20px" }}>
                 <Header title="DASHBOARD" subtitle={`as of ${formattedDate}`} />
 
                 <Box>
@@ -38,6 +31,7 @@ const LGDashboardTabs = ({ leadGenStats, leads }) => {
                             fontSize: "14px",
                             fontWeight: "bold",
                             padding: "10px 20px",
+                            mr: "30px"
                         }}
                     >
                         <DownloadOutlinedIcon sx={{ mr: "10px" }} />
@@ -55,172 +49,178 @@ const LGDashboardTabs = ({ leadGenStats, leads }) => {
             >
                 {/* ROW 1 */}
                 <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
+                    gridColumn="span 12"
                     display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+                    gap="20px"
+                    backgroundColor="#212e4a"
+                    p="20px"
+                    borderRadius="8px"
                 >
-                    <StatBox
-                        title={leadGenStats.leadsCreatedToday}
-                        subtitle="Leads Today"
-                        progress={leadGenStats.leadsCreatedToday}
-                        increase={leadGenStats.leadsCreatedToday}
-                        icon={
-                            <ContactsOutlined
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={leadGenStats.leadsCreated}
-                        subtitle="Total Leads"
-                        progress={totalLeadsProgress}
-                        increase={`${totalLeadsIncrease}%`}
-                        icon={
-                            <ContactsOutlined
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={leadGenStats.leadsAssigned}
-                        subtitle="Leads Assigned"
-                        progress={leadGenStats.leadsCreated - leadGenStats.leadsAvailable}
-                        increase={`${assignedLeadsIncrease}%`}
-                        icon={
-                            <AssignmentTurnedInIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor="#0a2538"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title={leadGenStats.leadsAvailable}
-                        subtitle="Leads Available"
-                        progress={leadGenStats.leadsCreated - leadGenStats.leadsAssigned}
-                        increase={`${unassignedLeadsIncrease}%`}
-                        icon={
-                            <AssignmentIcon
-                                sx={{ color: "#4cceac", fontSize: "26px" }}
-                            />
-                        }
-                    />
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <TodayIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{leadGenStats.leadsCreatedToday}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Leads Today</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <ContactsOutlined sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{leadGenStats.leadsCreated}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Total Leads</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <AssignmentIndIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{leadGenStats.leadsAssigned}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Leads Assigned</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <AssignmentIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{leadGenStats.leadsAvailable}</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Leads Available</Typography>
+                        </Box>
+                    </Box>
                 </Box>
 
-                {/* ROW 3 */}
+                {/* ROW 2 */}
                 <Box
                     gridColumn="span 8"
                     gridRow="span 4"
-                    backgroundColor="#101624"
-                    overflow="auto"
+                    backgroundColor="#d1d5db"
+                    borderRadius="8px"
+                    p="3px"
                 >
                     <Box
+                        backgroundColor="#111827"
+                        borderRadius="8px"
+                        overflow="hidden"
+                        m="20px" // Add margin to ensure proper alignment
+                        height="93%" // Ensure it takes the full height of the parent container
                         display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        borderBottom={`4px solid #1F2A40`}
-                        colors="#e0e0e0"
-                        p="15px"
+                        flexDirection="column"
                     >
-                        <Typography color="#e0e0e0" variant="h5" fontWeight="600">
-                            Recent Leads
-                        </Typography>
-                    </Box>
-                    {leads.map((lead) => (
-                        <Box
-                            key={lead._id}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            borderBottom={`4px solid #1F2A40`}
-                            p="15px"
-                        >
-                            <Box flex="3">
-                                <Typography color="#e0e0e0" variant="body1" fontSize="17px">
-                                    {lead.name}
-                                </Typography>
-                            </Box>
-                            <Box flex="2">
-                                <Typography color="#e0e0e0" variant="body1" fontSize="17px">
-                                    {lead.city}
-                                </Typography>
-                            </Box>
+
+                        <Box display="flex" flexDirection="column" height="100%">
                             <Box
-                                flex={1}
-                                backgroundColor="#4cceac"
-                                p="5px 10px"
-                                borderRadius="4px"
-                                textAlign="center"
-                                maxWidth="100px" // Adjust the width as needed
+                                display="flex"
+                                justifyContent="space-around"
+                                alignItems="center"
+                                borderBottom="2px solid #1F2A40"
+                                px="15px"
+                                py="10px"
+                                backgroundColor="#192231"
                             >
-                                <Typography color="#141b2d" variant="body1">
-                                    {lead.type}
+                                <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
+                                    Recent Leads
+                                </Typography>
+                                <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
+                                    Suburb
+                                </Typography>
+                                <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
+                                    Type
+                                </Typography>
+                                <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
+                                    Date
                                 </Typography>
                             </Box>
-                            <Box flex="2" textAlign="right">
-                                <Typography color="#e0e0e0" variant="body2" fontSize="17px">
-                                    {moment(lead.createdAt).format('MMM D, YYYY h:mm A')}
-                                </Typography>
+                            <Box flexGrow={1} display="flex" flexDirection="column" overflow="auto">
+                                {leads.map((lead) => (
+                                    <Box
+                                        key={lead._id}
+                                        display="flex"
+                                        justifyContent="space-around"
+                                        alignItems="center"
+                                        borderBottom="2px solid #1F2A40"
+                                        px="15px"
+                                        py="10px"
+                                        backgroundColor="#111827"
+                                    >
+                                        <Typography color="#e0e0e0" fontSize="17px" flex={1} textAlign="left">
+                                            {lead.name}
+                                        </Typography>
+                                        <Typography color="#e0e0e0" fontSize="17px" flex={1} textAlign="left">
+                                            {lead.city}
+                                        </Typography>
+                                        <Box
+                                            flex={1}
+
+                                            p="5px 10px"
+                                            borderRadius="4px"
+                                            textAlign="left"
+                                        >
+                                            <Typography color="#4cceac" fontSize="17px">
+                                                {lead.type}
+                                            </Typography>
+                                        </Box>
+                                        <Typography color="#e0e0e0" variant="body2" fontSize="17px" flex={1} textAlign="left">
+                                            {moment(lead.createdAt).format('MMM D, YYYY h:mm A')}
+                                        </Typography>
+                                    </Box>
+                                ))}
+                                {/* Add an empty Box to ensure full height */}
+                                {leads.length === 0 && (
+                                    <Box flexGrow={1} />
+                                )}
                             </Box>
                         </Box>
-                    ))}
+                    </Box>
                 </Box>
+
                 <Box
                     gridColumn="span 4"
                     gridRow="span 4"
-                    backgroundColor="#101624"
-                    overflow="auto"
+                    backgroundColor="#d1d5db"
+                    borderRadius="8px"
+                    p="3px"
                 >
                     <Box
+                        backgroundColor="#111827"
+                        borderRadius="8px"
+                        overflow="hidden"
+                        m="20px" // Add margin to ensure proper alignment
+                        height="93%" // Ensure it takes the full height of the parent container
                         display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        borderBottom={`4px solid #1F2A40`}
-                        colors="#e0e0e0"
-                        p="15px"
+                        flexDirection="column"
                     >
-                        <Typography color="#e0e0e0" variant="h5" fontWeight="600">
-                            Types Created
-                    </Typography>
-                    </Box>
-                    {leadGenStats.typesCreated &&
-                        Object.entries(leadGenStats.typesCreated).map(([type, count]) => (
+                        <Box display="flex" flexDirection="column" height="100%">
                             <Box
-                                key={type}
                                 display="flex"
-                                justifyContent="space-between"
+                                justifyContent="space-around"
                                 alignItems="center"
-                                borderBottom={`4px solid #1F2A40`}
-                                p="25px"
+                                borderBottom="2px solid #1F2A40"
+                                px="15px"
+                                py="10px"
+                                backgroundColor="#192231"
                             >
-                                <Typography color="#e0e0e0" fontSize="18px">{type}</Typography>
-                                <Typography color="#4cceac" fontSize="18px">{count}</Typography>
+                                <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={9} textAlign="left">
+                                    Types Created
+                                </Typography>
+                                <Typography color="#e0e0e0" variant="subtitle1" fontWeight="600" flex={1} textAlign="left">
+                                    Count
+                                </Typography>
                             </Box>
-                        ))}
+                            <Box flexGrow={1} display="flex" flexDirection="column" overflow="auto">
+                                {leadGenStats.typesCreated &&
+                                    Object.entries(leadGenStats.typesCreated).map(([type, count]) => (
+                                        <Box
+                                            key={type}
+                                            display="flex"
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                            borderBottom={`4px solid #1F2A40`}
+                                            p="25px"
+                                        >
+                                            <Typography color="#e0e0e0" fontSize="18px">{type}</Typography>
+                                            <Typography color="#4cceac" fontSize="18px">{count}</Typography>
+                                        </Box>
+                                    ))}
+                            </Box>
+                        </Box>
+                    </Box>
                 </Box>
 
             </Box>

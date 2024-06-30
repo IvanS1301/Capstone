@@ -16,6 +16,7 @@ const AgentLeads = () => {
   const { unassignedLeads, dispatch } = useLeadsContext()
   const { userLG } = useAuthContext()
   const [loading, setLoading] = useState(true); // Initialize loading state
+  const [filteredLeads, setFilteredLeads] = useState([]); // State to hold filtered leads
 
   const fetchLeads = useCallback(async () => {
     try {
@@ -27,6 +28,7 @@ const AgentLeads = () => {
 
       if (response.ok) {
         dispatch({ type: 'SET_UNASSIGNED_LEADS', payload: json })
+        setFilteredLeads(json); // Initialize filteredLeads with all leads initially
       }
       setLoading(false); // Set loading to false when data fetching is complete
     } catch (error) {
@@ -45,19 +47,38 @@ const AgentLeads = () => {
     fetchLeads();
   }, [fetchLeads]);
 
+  // Function to handle search
+  const handleSearch = useCallback((query) => {
+    const lowerCaseQuery = query.toLowerCase(); // Convert query to lowercase for case-insensitive search
+
+    if (lowerCaseQuery.trim() === "") {
+      setFilteredLeads(unassignedLeads); // If query is empty, show all leads
+    } else {
+      const filtered = unassignedLeads.filter((lead) => {
+        const name = lead.name ? lead.name.toLowerCase() : ''; // Check if lead.name is defined
+        const type = lead.type ? lead.type.toLowerCase() : '';
+        const emailaddress = lead.emailaddress ? lead.emailaddress.toLowerCase() : '';
+        const callDisposition = lead.callDisposition ? lead.callDisposition.toLowerCase() : '';
+
+        return name.includes(lowerCaseQuery) || type.includes(lowerCaseQuery) || callDisposition.includes(lowerCaseQuery) || emailaddress.includes(lowerCaseQuery)
+      });
+      setFilteredLeads(filtered);
+    }
+  }, [unassignedLeads]);
+
 
   return (
     <div className="flex">
       <AgentSidebar />
       <div className="flex flex-col w-full overflow-y-hidden">
-        <AgentNavbar />
+        <AgentNavbar onSearch={handleSearch} />
         <div className="p-1 flex-grow flex justify-center items-center">
           {loading ? (
             <CircularProgress />
           ) : (
               <div className="flex flex-col w-full items-center overflow-y-hidden">
                 <div className="w-full">
-                  <AgentLeadDetails unassignedLeads={unassignedLeads} onLeadUpdate={handleLeadUpdate} />
+                  <AgentLeadDetails unassignedLeads={filteredLeads} onLeadUpdate={handleLeadUpdate} />
                 </div>
               </div>
             )}
