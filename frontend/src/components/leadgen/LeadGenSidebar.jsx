@@ -50,7 +50,7 @@ const LeadGenSidebar = () => {
                 setSelected("Add New Lead");
                 break;
             case `/viewuser/${userLG._id}`:
-                setSelected("Profile");
+                setSelected("Personal Info");
                 break;
             case "/Settings":
                 setSelected("Settings");
@@ -161,11 +161,11 @@ const LeadGenSidebar = () => {
 
                 {!isCollapsed && (
                     <div className="text-[#a3a3a3] m-3 ml-7">
-                        <Typography sx={{ fontSize: '14px', m: "15px 0 5px 20px" }}>Personal Info</Typography>
+                        <Typography sx={{ fontSize: '14px', m: "15px 0 5px 20px" }}>Profile</Typography>
                     </div>
                 )}
                 <Item
-                    title="Profile"
+                    title="Personal Info"
                     to={`/viewuser/${userLG._id}`}
                     icon={<AccountCircleIcon />}
                     selected={selected}

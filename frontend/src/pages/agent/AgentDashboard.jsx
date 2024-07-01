@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 /** --- COMPONENTS --- */
 import AgentSidebar from '../../components/agent/AgentSidebar';
@@ -20,42 +20,45 @@ const AgentDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [bookedUnits, setBookedUnits] = useState(null);
     const [unassignedLeads, setUnassignedLeads] = useState(null);
+    const [filteredLeads, setFilteredLeads] = useState([]);
     const [userBookedUnits, setUserBookedUnits] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const fetchData = useCallback(async () => {
+        try {
+            const [bookedUnitsRes, unassignedLeadsRes] = await Promise.all([
+                fetch('/api/services/booked-units-performance', {
+                    headers: { 'Authorization': `Bearer ${userLG.token}` },
+                }),
+                fetch('/api/leads/unassigned', {
+                    headers: { 'Authorization': `Bearer ${userLG.token}` },
+                })
+            ]);
+
+            const [bookedUnitsData, unassignedLeadsData] = await Promise.all([
+                bookedUnitsRes.json(),
+                unassignedLeadsRes.json(),
+            ]);
+
+            if (bookedUnitsRes.ok && unassignedLeadsRes.ok) {
+                setBookedUnits(bookedUnitsData);
+                setUnassignedLeads(unassignedLeadsData);
+                setFilteredLeads(unassignedLeadsData); // Initialize filteredLeads with all data
+                dispatchServices({ type: 'SET_BOOKED_UNITS', payload: bookedUnitsData });
+                dispatchLeads({ type: 'SET_UNASSIGNED_LEADS', payload: unassignedLeadsData });
+            } else {
+                console.error('Failed to fetch data', { bookedUnitsData, unassignedLeadsData });
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, [dispatchServices, dispatchLeads, userLG]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [bookedUnitsRes, unassignedLeadsRes] = await Promise.all([
-                    fetch('/api/services/booked-units-performance', {
-                        headers: { 'Authorization': `Bearer ${userLG.token}` },
-                    }),
-                    fetch('/api/leads/unassigned', {
-                        headers: { 'Authorization': `Bearer ${userLG.token}` },
-                    })
-                ]);
-
-                const [bookedUnitsData, unassignedLeadsData] = await Promise.all([
-                    bookedUnitsRes.json(),
-                    unassignedLeadsRes.json(),
-                ]);
-
-                if (bookedUnitsRes.ok && unassignedLeadsRes.ok) {
-                    setBookedUnits(bookedUnitsData);
-                    setUnassignedLeads(unassignedLeadsData);
-                    dispatchServices({ type: 'SET_BOOKED_UNITS', payload: bookedUnitsData });
-                    dispatchLeads({ type: 'SET_UNASSIGNED_LEADS', payload: unassignedLeadsData });
-                } else {
-                    console.error('Failed to fetch data', { bookedUnitsData, unassignedLeadsData });
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchData();
-    }, [dispatchServices, dispatchLeads, userLG]);
+    }, [fetchData]);
 
     useEffect(() => {
         if (bookedUnits && userLG) {
@@ -63,6 +66,25 @@ const AgentDashboard = () => {
             setUserBookedUnits(userBooked);
         }
     }, [bookedUnits, userLG]);
+
+    const handleSearch = useCallback((query) => {
+        const lowerCaseQuery = query.toLowerCase();
+
+        setSearchQuery(query);
+
+        if (query.trim() === "") {
+            setFilteredLeads(unassignedLeads);
+        } else {
+            const filtered = unassignedLeads.filter((lead) => {
+                const name = lead.name ? lead.name.toLowerCase() : '';
+                const type = lead.type ? lead.type.toLowerCase() : '';
+                const city = lead.city ? lead.city.toLowerCase() : '';
+
+                return name.includes(lowerCaseQuery) || type.includes(lowerCaseQuery) || city.includes(lowerCaseQuery);
+            });
+            setFilteredLeads(filtered);
+        }
+    }, [unassignedLeads]);
 
     if (loading) {
         return (
@@ -85,11 +107,11 @@ const AgentDashboard = () => {
         <div className="flex">
             <AgentSidebar />
             <div className="flex flex-col w-full overflow-y-hidden">
-                <AgentNavbar />
+                <AgentNavbar onSearch={handleSearch} />
                 <div className="p-1 flex-grow flex justify-center items-center">
                     <div className="flex flex-col w-full items-center overflow-y-hidden">
                         <div className="w-full">
-                            <AGDashboardTabs bookedUnits={userBookedUnits} unassignedLeads={unassignedLeads} />
+                            <AGDashboardTabs bookedUnits={userBookedUnits} unassignedLeads={searchQuery ? filteredLeads : unassignedLeads} />
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,6 @@ import { CircularProgress } from '@mui/material';
 
 // components
 import AgentSidebar from '../../components/agent/AgentSidebar';
-import AgentNavbar from '../../components/agent/AgentNavbar';
 import ViewUserAG from '../../components/profile/ViewUserAG'
 import { useUsersContext } from "../../hooks/useUsersContext";
 
@@ -38,9 +37,8 @@ const ReadUserAG = () => {
     return (
         <div className="flex">
             <AgentSidebar />
-            <div className="flex flex-col w-full overflow-y-hidden">
-                <AgentNavbar />
-                <div className="p-1">
+            <div className="flex flex-col w-full overflow-y-hidden mt-5">
+                <div className="p-1 mt-20">
                     {loading ? (
                         <div className="flex justify-center items-center h-full">
                             <CircularProgress />

@@ -16,7 +16,7 @@ const AgentAnalyticsTabs = ({ bookedUnits }) => {
     return (
         <Box m="20px">
             {/* HEADER */}
-            <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ backgroundColor: "#111827", padding: "1px 5px", borderRadius: "8px", marginBottom: "20px" }}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ backgroundColor: "#111827", padding: "1px 5px", borderRadius: "8px", marginBottom: "50px" }}>
                 <Header title="Booked Summary" subtitle="Statistics for Today" />
             </Box>
 
@@ -26,6 +26,7 @@ const AgentAnalyticsTabs = ({ bookedUnits }) => {
                 gridTemplateColumns="repeat(12, 1fr)"
                 gridAutoRows="140px"
                 gap="20px"
+                marginTop="40px"
             >
                 {/* ROW 1 */}
                 <Box
@@ -73,6 +74,7 @@ const AgentAnalyticsTabs = ({ bookedUnits }) => {
                     backgroundColor="#d1d5db"
                     borderRadius="8px"
                     p="3px"
+                    marginTop="20px"
                 >
                     <Box
                         backgroundColor="#111827"
@@ -121,6 +123,7 @@ const AgentAnalyticsTabs = ({ bookedUnits }) => {
                     backgroundColor="#d1d5db"
                     borderRadius="8px"
                     p="3px"
+                    marginTop="20px"
                 >
                     <Box
                         backgroundColor="#111827"

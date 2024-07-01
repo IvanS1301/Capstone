@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 /** --- COMPONENTS --- */
 import LeadGenSidebar from '../../components/leadgen/LeadGenSidebar';
@@ -20,42 +20,45 @@ const LeadGenDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [leadGenStats, setLeadGenStats] = useState(null);
     const [leads, setLeads] = useState(null);
+    const [filteredLeads, setFilteredLeads] = useState([]);
     const [userLeadGenStats, setUserLeadGenStats] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const fetchData = useCallback(async () => {
+        try {
+            const [leadGenStatsRes, leadsRes] = await Promise.all([
+                fetch('/api/services/lead-gen-performance', {
+                    headers: { 'Authorization': `Bearer ${userLG.token}` },
+                }),
+                fetch('/api/leads', {
+                    headers: { 'Authorization': `Bearer ${userLG.token}` },
+                })
+            ]);
+
+            const [leadGenStatsData, leadsData] = await Promise.all([
+                leadGenStatsRes.json(),
+                leadsRes.json()
+            ]);
+
+            if (leadGenStatsRes.ok && leadsRes.ok) {
+                setLeadGenStats(leadGenStatsData);
+                setLeads(leadsData);
+                setFilteredLeads(leadsData); // Initialize filteredLeads with all data
+                dispatchServices({ type: 'SET_LEADGEN_STATS', payload: leadGenStatsData });
+                dispatchLeads({ type: 'SET_LEADS', payload: leadsData });
+            } else {
+                console.error('Failed to fetch data', { leadGenStatsData, leadsData });
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, [dispatchServices, dispatchLeads, userLG]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [leadGenStatsRes, leadsRes] = await Promise.all([
-                    fetch('/api/services/lead-gen-performance', {
-                        headers: { 'Authorization': `Bearer ${userLG.token}` },
-                    }),
-                    fetch('/api/leads', {
-                        headers: { 'Authorization': `Bearer ${userLG.token}` },
-                    })
-                ]);
-
-                const [leadGenStatsData, leadsData] = await Promise.all([
-                    leadGenStatsRes.json(),
-                    leadsRes.json()
-                ]);
-
-                if (leadGenStatsRes.ok && leadsRes.ok) {
-                    setLeadGenStats(leadGenStatsData);
-                    setLeads(leadsData);
-                    dispatchServices({ type: 'SET_LEADGEN_STATS', payload: leadGenStatsData });
-                    dispatchLeads({ type: 'SET_LEADS', payload: leadsData });
-                } else {
-                    console.error('Failed to fetch data', { leadGenStatsData, leadsData });
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchData();
-    }, [dispatchServices, dispatchLeads, userLG]);
+    }, [fetchData]);
 
     useEffect(() => {
         if (leadGenStats && userLG) {
@@ -63,6 +66,25 @@ const LeadGenDashboard = () => {
             setUserLeadGenStats(userStats);
         }
     }, [leadGenStats, userLG]);
+
+    const handleSearch = useCallback((query) => {
+        const lowerCaseQuery = query.toLowerCase();
+
+        setSearchQuery(query);
+
+        if (query.trim() === "") {
+            setFilteredLeads(leads);
+        } else {
+            const filtered = leads.filter((lead) => {
+                const name = lead.name ? lead.name.toLowerCase() : '';
+                const type = lead.type ? lead.type.toLowerCase() : '';
+                const city = lead.city ? lead.city.toLowerCase() : '';
+
+                return name.includes(lowerCaseQuery) || type.includes(lowerCaseQuery) || city.includes(lowerCaseQuery);
+            });
+            setFilteredLeads(filtered);
+        }
+    }, [leads]);
 
     if (loading) {
         return (
@@ -85,11 +107,11 @@ const LeadGenDashboard = () => {
         <div className="flex">
             <LeadGenSidebar />
             <div className="flex flex-col w-full overflow-y-hidden">
-                <LeadGenNavbar />
+                <LeadGenNavbar onSearch={handleSearch} />
                 <div className="p-1 flex-grow flex justify-center items-center">
                     <div className="flex flex-col w-full items-center overflow-y-hidden">
                         <div className="w-full">
-                            <LGDashboardTabs leadGenStats={userLeadGenStats} leads={leads} />
+                            <LGDashboardTabs leadGenStats={userLeadGenStats} leads={searchQuery ? filteredLeads : leads} />
                         </div>
                     </div>
                 </div>

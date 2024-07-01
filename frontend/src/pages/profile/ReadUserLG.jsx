@@ -3,7 +3,6 @@ import { CircularProgress } from '@mui/material';
 
 // components
 import LeadGenSidebar from '../../components/leadgen/LeadGenSidebar';
-import LeadGenNavbar from '../../components/leadgen/LeadGenNavbar';
 import ViewUserLG from '../../components/profile/ViewUserLG'
 import { useUsersContext } from "../../hooks/useUsersContext";
 
@@ -38,9 +37,8 @@ const ReadUserLG = () => {
     return (
         <div className="flex">
             <LeadGenSidebar />
-            <div className="flex flex-col w-full overflow-y-hidden">
-                <LeadGenNavbar />
-                <div className="p-1">
+            <div className="flex flex-col w-full overflow-y-hidden mt-5">
+                <div className="p-1 mt-20">
                     {loading ? (
                         <div className="flex justify-center items-center h-full">
                             <CircularProgress />

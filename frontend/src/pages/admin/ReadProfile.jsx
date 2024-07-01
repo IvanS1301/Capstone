@@ -3,7 +3,6 @@ import { CircularProgress } from '@mui/material';
 
 // components
 import AdminSidebar from '../../components/admin/AdminSidebar';
-import AdminNavbar from '../../components/admin/AdminNavbar';
 import ViewProfile from '../../components/admin/ViewProfile';
 import { useUsersContext } from "../../hooks/useUsersContext";
 
@@ -38,9 +37,8 @@ const ReadProfile = () => {
     return (
         <div className="flex">
             <AdminSidebar />
-            <div className="flex flex-col w-full overflow-y-hidden">
-                <AdminNavbar />
-                <div className="p-1">
+            <div className="flex flex-col w-full overflow-y-hidden mt-5">
+                <div className="p-1 mt-20">
                     {loading ? (
                         <div className="flex justify-center items-center h-full">
                             <CircularProgress />
