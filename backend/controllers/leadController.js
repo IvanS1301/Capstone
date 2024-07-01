@@ -46,21 +46,28 @@ const getUnassignedLeads = async (req, res) => {
                 return leads;
             };
 
-            // Fetch leads ensuring a balance between high-priority and low-priority types
-            const highPriorityLeads = await fetchLeads(highPriorityTypes, 5);
-            const lowPriorityLeads = await fetchLeads(lowPriorityTypes, 5);
+            // Fetch high-priority leads first
+            const highPriorityLeads = await fetchLeads(highPriorityTypes, 20);
+
+            if (highPriorityLeads.length < 20) {
+                // Fetch low-priority leads if high-priority leads are not enough
+                const remainingCount = 20 - highPriorityLeads.length;
+                const lowPriorityLeads = await fetchLeads(lowPriorityTypes, remainingCount);
+
+                // Combine high-priority and low-priority leads
+                newLeads = highPriorityLeads.concat(lowPriorityLeads);
+            } else {
+                newLeads = highPriorityLeads.slice(0, 20); // Ensure exactly 10 leads if high-priority leads are sufficient
+            }
 
             // If we still don't have enough leads, fetch additional leads to make up the difference
-            const combinedLeads = [...highPriorityLeads, ...lowPriorityLeads];
-            if (combinedLeads.length < 10) {
-                const remainingCount = 10 - combinedLeads.length;
-                const additionalLeads = await Lead.find({ assignedTo: { $exists: false }, _id: { $nin: combinedLeads.map(lead => lead._id) } })
+            if (newLeads.length < 20) {
+                const remainingCount = 20 - newLeads.length;
+                const additionalLeads = await Lead.find({ assignedTo: { $exists: false }, _id: { $nin: newLeads.map(lead => lead._id) } })
                     .limit(remainingCount)
                     .sort({ Distributed: -1 })
                     .exec();
-                newLeads = combinedLeads.concat(additionalLeads);
-            } else {
-                newLeads = combinedLeads.slice(0, 10); // Ensure exactly 10 leads
+                newLeads = newLeads.concat(additionalLeads);
             }
 
             // Assign fetched leads to the current Telemarketer
