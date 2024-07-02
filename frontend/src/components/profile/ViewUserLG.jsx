@@ -17,7 +17,7 @@ import { useUsersContext } from "../../hooks/useUsersContext";
 // Function to shorten ObjectId
 const objectIdToShortId = (objectId) => {
     const hexString = objectId.toString();
-    return hexString.substring(20, 26);
+    return hexString.substring(17, 26);
 };
 
 const ViewUserLG = ({ onUserUpdate }) => {
@@ -129,7 +129,7 @@ const ViewUserLG = ({ onUserUpdate }) => {
             >
                 <Fade in={openEditModal}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                        <EditUserLG userId={userlg._id} onClose={handleCloseEditModal} onUserUpdate={onUserUpdate}/>
+                        <EditUserLG userId={userlg._id} onClose={handleCloseEditModal} onUserUpdate={onUserUpdate} />
                     </Box>
                 </Fade>
             </Modal>
@@ -146,7 +146,7 @@ const ViewUserLG = ({ onUserUpdate }) => {
             >
                 <Fade in={openStatusModal}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                        <AgentStatus userId={userlg._id} onUserUpdate={onUserUpdate}/>
+                        <AgentStatus userId={userlg._id} onUserUpdate={onUserUpdate} />
                     </Box>
                 </Fade>
             </Modal>
