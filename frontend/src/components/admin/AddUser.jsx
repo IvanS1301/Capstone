@@ -81,7 +81,7 @@ const AddUser = () => {
     };
 
     return (
-            <Box className="max-w-md w-full mx-auto p-10 bg-gray-800 rounded-lg shadow-md">
+            <Box className="max-w-md w-full mx-auto p-6 bg-gray-800 rounded-lg shadow-md">
                 <div className="flex items-center justify-center mb-6">
                     <img
                         src={process.env.PUBLIC_URL + '/logo.png'}
@@ -103,19 +103,30 @@ const AddUser = () => {
                     </div>
                     
                     <div className='mb-4'>
-                        <label className="block text-white text-sm font-semibold mb-2" 
-                        type={showPassword ? "text" : "password"}
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        name="password"
-                        htmlFor="password">Password</label>
-                        <input placeholder="Enter unique password" className="w-full px-3 text-white py-2 border rounded-lg bg-gray-800 focus:outline-none focus:border-blue-500" 
-                         type={showPassword ? "text" : "password"}
-                         onChange={(e) => setPassword(e.target.value)}
-                         value={password}
-                         name="password"
-                         required></input>
-                    </div>
+            <label 
+                className="block text-white text-sm font-semibold mb-2" 
+                htmlFor="password">
+                Password
+            </label>
+            <div className="relative">
+                <input 
+                    type={showPassword ? "text" : "password"}
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    name="password"
+                    placeholder="Enter unique password"
+                    className="w-full px-3 text-white py-2 border rounded-lg bg-gray-800 focus:outline-none focus:border-blue-500"
+                    required
+                />
+                <button 
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-200"
+                >
+                    {showPassword ? '🙈' : '👁️'}
+                </button>
+            </div>
+        </div>
                     
                     
                         <FormControl fullWidth variant="outlined" required>
@@ -132,6 +143,7 @@ const AddUser = () => {
                         <option key={role.value} value={role.value}>{role.label}</option>
                         ))}
                     </select>
+                    
                     </div>
                         <br></br>
                     </FormControl>
