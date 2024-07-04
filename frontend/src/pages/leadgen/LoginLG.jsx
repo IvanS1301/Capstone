@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { Link } from 'react-router-dom'
 import { useLoginLG } from "../../hooks/useLoginLG"
-
+import { FaRegEyeSlash } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa6";
 const LoginLG = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -13,7 +14,8 @@ const LoginLG = () => {
 
     await loginLG(email, password)
   }
-
+  const [show, setShow] = useState(false)
+    console.log(show)
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
   }
@@ -41,18 +43,19 @@ const LoginLG = () => {
 
             <div className="relative">
               <input
-                className="p-3 rounded-xl border w-full"
-                type={showPassword ? "text" : "password"} // Toggle input type based on state
+                className="p-2 rounded-xl border w-full"
+                type={showPassword ? 'text' : 'password'}
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 placeholder="Password"
               />
-              <img
-                src={process.env.PUBLIC_URL + '/eye.svg'}
-                alt="eye"
-                className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
-                onClick={togglePasswordVisibility} // Toggle password visibility on click
-              />
+              <button
+                type="button" // to prevent form submission
+                className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+              </button>
             </div>
             <button
               disabled={isLoading}
@@ -60,7 +63,7 @@ const LoginLG = () => {
             >
               Log In
             </button>
-            {error && <div className="error">{error}</div>}
+            {error && <div className="error text-rose-600">{error}</div>}
           </form>
 
           <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
