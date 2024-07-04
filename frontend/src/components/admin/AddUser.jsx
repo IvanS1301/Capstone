@@ -81,8 +81,7 @@ const AddUser = () => {
     };
 
     return (
-        <Box display="flex" justifyContent="center" mt={6} sx={{ width: '100%', height: '70vh', padding: '10px', maxWidth: '1200px', mx: 'auto' }}>
-            <Box className="w-full max-w-xl mx-auto p-12 bg-[#062438] rounded-lg shadow-md">
+            <Box className="max-w-md w-full mx-auto p-10 bg-gray-800 rounded-lg shadow-md">
                 <div className="flex items-center justify-center mb-6">
                     <img
                         src={process.env.PUBLIC_URL + '/logo.png'}
@@ -91,158 +90,61 @@ const AddUser = () => {
                     />
                     <h2 className="font-bold text-3xl text-center text-[#f4f5fd] mt-3 ml-3">Chromagen</h2>
                 </div>
-                <h2 className='text-xl text-center text-[#4cceac] mb-7 ml-4'>Create New User</h2>
+                <h2 className='text-3x1 text-center text-blue-200 font-bold mb-6'>CREATE NEW USER</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className='mb-6'>
+                    <div className='mb-4' onChange={(e) => setName(e.target.value)} value={name} name="fullName">
                         <label className="block text-white text-sm font-semibold mb-2" htmlFor="fullName">Full Name</label>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            type="text"
-                            placeholder="Full Name"
-                            onChange={(e) => setName(e.target.value)}
-                            value={name}
-                            name="fullName"
-                            required
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    backgroundColor: '#4b5563',
-                                    color: '#ffffff',
-                                    '& fieldset': {
-                                        borderColor: 'transparent',
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: '#3b82f6',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: '#3b82f6',
-                                    },
-                                },
-                                '& .MuiInputLabel-root': {
-                                    color: '#ffffff',
-                                },
-                            }}
-                        />
+                        <input placeholder="Juan Dela Cruz" className="w-full px-3 text-white py-2 border rounded-lg bg-gray-800 focus:outline-none focus:border-blue-500" required type="text"></input>
+
                     </div>
-                    <div className='mb-6'>
+                    <div className='mb-4' onChange={(e) => setEmail(e.target.value)} value={email} name="email" >
                         <label className="block text-white text-sm font-semibold mb-2" htmlFor="email">Email</label>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            type="email"
-                            placeholder="chromagen@sortr.com.au"
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                            name="email"
-                            required
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    backgroundColor: '#4b5563',
-                                    color: '#ffffff',
-                                    '& fieldset': {
-                                        borderColor: 'transparent',
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: '#3b82f6',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: '#3b82f6',
-                                    },
-                                },
-                                '& .MuiInputLabel-root': {
-                                    color: '#ffffff',
-                                },
-                            }}
-                        />
+                        <input placeholder="bakaaaa@example.com" className="w-full px-3 text-white py-2 border rounded-lg bg-gray-800 focus:outline-none focus:border-blue-500" required type="text"></input>
                     </div>
-                    <div className='mb-9'>
-                        <label className="block text-white text-sm font-semibold mb-2" htmlFor="password">Password</label>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Enter unique password"
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                            name="password"
-                            required
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    backgroundColor: '#4b5563',
-                                    color: '#ffffff',
-                                    '& fieldset': {
-                                        borderColor: 'transparent',
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: '#3b82f6',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: '#3b82f6',
-                                    },
-                                },
-                                '& .MuiInputLabel-root': {
-                                    color: '#ffffff',
-                                },
-                            }}
-                            InputProps={{
-                                endAdornment: (
-                                    <img
-                                        src={process.env.PUBLIC_URL + '/eye.svg'}
-                                        alt="eye"
-                                        className="cursor-pointer"
-                                        onClick={togglePasswordVisibility}
-                                    />
-                                ),
-                            }}
-                        />
+                    
+                    <div className='mb-4'>
+                        <label className="block text-white text-sm font-semibold mb-2" 
+                        type={showPassword ? "text" : "password"}
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        name="password"
+                        htmlFor="password">Password</label>
+                        <input placeholder="Enter unique password" className="w-full px-3 text-white py-2 border rounded-lg bg-gray-800 focus:outline-none focus:border-blue-500" 
+                         type={showPassword ? "text" : "password"}
+                         onChange={(e) => setPassword(e.target.value)}
+                         value={password}
+                         name="password"
+                         required></input>
                     </div>
-                    <div className='mb-9'>
+                    
+                    
                         <FormControl fullWidth variant="outlined" required>
-                            <InputLabel sx={{ color: '#ffffff' }}>Select Role</InputLabel>
-                            <MuiSelect
-                                value={role}
-                                onChange={(e) => setRole(e.target.value)}
-                                label="Select Role"
-                                sx={{
-                                    backgroundColor: '#4b5563',
-                                    color: '#ffffff',
-                                    '& .MuiOutlinedInput-notchedOutline': {
-                                        borderColor: 'transparent',
-                                    },
-                                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                                        borderColor: '#3b82f6',
-                                    },
-                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                        borderColor: '#3b82f6',
-                                    },
-                                }}
-                            >
-                                <MenuItem value="">None</MenuItem>
-                                {roles.map((role) => (
-                                    <MenuItem key={role.value} value={role.value}>{role.label}</MenuItem>
-                                ))}
-                            </MuiSelect>
-                        </FormControl>
+                        <div className='mb-9' >
+                    <label className="block text-white text-sm font-semibold mb-2" htmlFor="select-role">Select Role</label>
+                    <select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        className="w-full px-3 py-2 border rounded-lg bg-gray-800 text-white focus:outline-none focus:border-blue-500"
+                        aria-label="Select Role"
+                    >
+                        <option className="" value="" disabled>Select One</option>
+                        {roles.map((role) => (
+                        <option key={role.value} value={role.value}>{role.label}</option>
+                        ))}
+                    </select>
                     </div>
-                    <div className='flex justify-center mt-14'>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            disabled={loading}
-                            sx={{
-                                bgcolor: '#9c1c1c',
-                                '&:hover': {
-                                    bgcolor: '#3b82f6',
-                                },
-                            }}
-                        >
-                            {loading ? <CircularProgress size={24} /> : "Add New User"}
-                        </Button>
+                        <br></br>
+                    </FormControl>
+                    
+                    
+                    <div className='flex justify-center'>
+                    <button type="submit" className='bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-rose-600 focus:outline-white'                             
+                    disabled={loading}>{loading ? <CircularProgress size={24} /> : "Add New User"}</button>
                     </div>
+                        
                     {error && <div className="text-red-500 mt-2 text-center">{error}</div>}
                 </form>
-            </Box>
+            
 
             <Modal
                 open={loading}
