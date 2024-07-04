@@ -84,7 +84,7 @@ const LeadGenLeads = () => {
     <div className="flex">
       <LeadGenSidebar />
       <div className="flex flex-col w-full overflow-y-hidden">
-        <LeadGenNavbar onSearch={handleSearch}/>
+        <LeadGenNavbar onSearch={handleSearch} />
         <div className="p-1 flex-grow flex justify-center items-center">
           {loading ? (
             <CircularProgress />

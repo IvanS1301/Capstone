@@ -7,8 +7,8 @@
 
 /* layout */
 html,
-body,
 #root,
+body,
 .app,
 .content {
   height: 100%;

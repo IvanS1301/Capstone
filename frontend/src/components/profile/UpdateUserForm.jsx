@@ -10,7 +10,6 @@ const UpdateUserForm = ({ userId, onUserUpdate }) => {
 
   const [userData, setUserData] = useState({
     name: '',
-    email: '',
     role: '',
     team: ''
   });
@@ -23,7 +22,6 @@ const UpdateUserForm = ({ userId, onUserUpdate }) => {
     if (userlg) {
       setUserData({
         name: userlg.name || '',
-        email: userlg.email || '',
         role: userlg.role || '',
         team: userlg.team || ''
       });
@@ -101,14 +99,6 @@ const UpdateUserForm = ({ userId, onUserUpdate }) => {
         label="Name"
         name="name"
         value={userData.name}
-        onChange={handleChange}
-        margin="normal"
-      />
-      <TextField
-        fullWidth
-        label="Email"
-        name="email"
-        value={userData.email}
         onChange={handleChange}
         margin="normal"
       />
