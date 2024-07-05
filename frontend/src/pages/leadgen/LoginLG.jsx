@@ -1,22 +1,25 @@
-import { useState } from "react"
-import { Link } from 'react-router-dom'
-import { useLoginLG } from "../../hooks/useLoginLG"
+import { useState } from "react";
+import { Link } from 'react-router-dom';
+import { useLoginLG } from "../../hooks/useLoginLG";
+
+/** --- MATERIAL UI --- */
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const LoginLG = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false) // State for password visibility
-  const { loginLG, error, isLoading } = useLoginLG()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const { loginLG, error, isLoading } = useLoginLG();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    await loginLG(email, password)
-  }
+    e.preventDefault();
+    await loginLG(email, password);
+  };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   return (
     <section className="bg-[#b1b4ba] min-h-screen flex items-center justify-center">
@@ -47,12 +50,17 @@ const LoginLG = () => {
                 value={password}
                 placeholder="Password"
               />
-              <img
-                src={process.env.PUBLIC_URL + '/eye.svg'}
-                alt="eye"
-                className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
-                onClick={togglePasswordVisibility} // Toggle password visibility on click
-              />
+              {showPassword ? (
+                <VisibilityOffIcon
+                  className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                  onClick={togglePasswordVisibility} // Toggle password visibility on click
+                />
+              ) : (
+                  <VisibilityIcon
+                    className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                    onClick={togglePasswordVisibility} // Toggle password visibility on click
+                  />
+                )}
             </div>
             <button
               disabled={isLoading}
@@ -75,7 +83,7 @@ const LoginLG = () => {
             >
               <img src={process.env.PUBLIC_URL + '/lock.png'} alt="google" className="mr-3" />
               Forgot Password?
-          </button>
+            </button>
           </Link>
 
           <div className="mt-5 text-xs border-b border-[#f4f5fd] py-5 text-[#f4f5fd]">
@@ -88,7 +96,7 @@ const LoginLG = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default LoginLG
+export default LoginLG;
