@@ -147,7 +147,7 @@ const UserLists = ({ userlgs, onUserUpdate }) => {
     const getRoleColor = (role) => {
       switch (role) {
         case 'Lead Generation':
-          return 'bg-teal-800';
+          return 'bg-amber-500';
         case 'Telemarketer':
           return 'bg-blue-900';
         case 'Team Leader':
@@ -270,19 +270,17 @@ const UserLists = ({ userlgs, onUserUpdate }) => {
 
   return (
     <Box m="20px">
-      <Box mb="20px">
-        <Typography
-          variant="h4"
-          color="#111827"
-          fontWeight="bold"
-          sx={{ m: "0 0 5px 0", mt: "25px" }}
-        >
-          Chromagen Staffs
-            </Typography>
-        <Typography variant="h5" color="#111827">
-          List of Users
-            </Typography>
-      </Box>
+      <Box display="flex" justifyContent="center" mt="15px">
+    <Typography
+        variant="h4"
+        color="#111827"
+        fontWeight="bold"
+        sx={{ mb: "5px" }}
+    >
+        CHROMAGEN STAFF
+    </Typography>
+    </Box>
+
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -300,9 +298,9 @@ const UserLists = ({ userlgs, onUserUpdate }) => {
             color: "#1d4ed8",
           },
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: "#111827",
+            backgroundColor: "#6b7280",
             borderBottom: "none",
-            color: "#e0e0e0",
+            color: "#083344",
             fontSize: "18px",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -314,7 +312,7 @@ const UserLists = ({ userlgs, onUserUpdate }) => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: "#111827",
+            backgroundColor: "#6b7280",
           },
           "& .MuiCheckbox-root": {
             color: `#111827 !important`,

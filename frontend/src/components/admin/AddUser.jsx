@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 /** --- MATERIAL UI --- */
-import { Box, Button, TextField, FormControl, InputLabel, Select as MuiSelect, MenuItem, Modal, CircularProgress } from '@mui/material';
+import { Box, FormControl, Select as Modal, CircularProgress } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 /** --- IMPORT CONTEXT --- */
@@ -65,9 +65,6 @@ const AddUser = () => {
         }
     };
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
 
     /** --- FOR SELECTION --- */
     const roles = [
