@@ -60,7 +60,7 @@ const LeadGenNavbar = ({ onSearch }) => {
             });
 
             if (response.ok) {
-                setNotifications(notifications.map(n => n._id === id ? { ...n, isRead: true } : n));
+                setNotifications(notifications.map(n => n._id === id ? { ...n, readByLeadGen: true } : n));
             } else {
                 console.error('Failed to mark notification as read');
             }
@@ -77,7 +77,7 @@ const LeadGenNavbar = ({ onSearch }) => {
         setProfileAnchorEl(null);
     };
 
-    const unreadCount = notifications.filter(n => !n.isRead).length;
+    const unreadCount = notifications.filter(n => !n.readByLeadGen).length;
 
     return (
         <Box display="flex" justifyContent="space-between" p={2}>
@@ -115,7 +115,7 @@ const LeadGenNavbar = ({ onSearch }) => {
                         <MenuItem
                             key={notification._id}
                             onClick={() => handleMarkAsRead(notification._id)}
-                            sx={{ backgroundColor: notification.isRead ? 'inherit' : '#f0f0f0' }}
+                            sx={{ backgroundColor: notification.readByLeadGen ? 'inherit' : '#f0f0f0' }}
                         >
                             {notification.message}
                         </MenuItem>

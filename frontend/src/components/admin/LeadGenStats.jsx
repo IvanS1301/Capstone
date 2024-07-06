@@ -96,6 +96,13 @@ const LeadGenStats = ({ leadGenStats }) => {
                     "& .MuiDataGrid-footerContainer": {
                         borderTop: "none",
                         backgroundColor: "#111827",
+                        color: "#ffffff",
+                    },
+                    "& .MuiTablePagination-root": {
+                        color: "#ffffff !important", // Ensure the pagination text is white
+                    },
+                    "& .MuiTablePagination-actions .MuiButtonBase-root": {
+                        color: "#ffffff !important", // Ensure the pagination buttons are white
                     },
                     "& .MuiCheckbox-root": {
                         color: `#111827 !important`,

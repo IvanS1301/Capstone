@@ -140,7 +140,7 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
             flex: 1,
             minWidth: 180,
             renderCell: (params) =>
-                moment(params.row.createdAt).startOf('hour').fromNow()
+                moment(params.row.createdAt).startOf('minute').fromNow()
         },
         {
             field: "actions",
@@ -203,6 +203,13 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
                     "& .MuiDataGrid-footerContainer": {
                         borderTop: "none",
                         backgroundColor: "#111827",
+                        color: "#ffffff",
+                    },
+                    "& .MuiTablePagination-root": {
+                        color: "#ffffff !important", // Ensure the pagination text is white
+                    },
+                    "& .MuiTablePagination-actions .MuiButtonBase-root": {
+                        color: "#ffffff !important", // Ensure the pagination buttons are white
                     },
                     "& .MuiCheckbox-root": {
                         color: `#111827 !important`,
