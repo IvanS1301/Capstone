@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 /** --- MATERIAL UI --- */
-import { Box, IconButton, Badge, Menu, MenuItem } from "@mui/material";
+import { Box, IconButton, Badge, Menu, MenuItem, Typography } from "@mui/material";
 
 /** --- MATERIAL UI ICONS --- */
 import InputBase from "@mui/material/InputBase";
@@ -10,10 +11,16 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 
+/** --- IMPORT HOOKS --- */
+import { useAuthContext } from '../../hooks/useAuthContext';
+
 const AdminNavbar = ({ onSearch }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [notifications, setNotifications] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [profileAnchorEl, setProfileAnchorEl] = useState(null);
+
+    const { userLG } = useAuthContext();
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -60,6 +67,14 @@ const AdminNavbar = ({ onSearch }) => {
         } catch (error) {
             console.error(error);
         }
+    };
+
+    const handleProfileMenuOpen = (event) => {
+        setProfileAnchorEl(event.currentTarget);
+    };
+
+    const handleProfileMenuClose = () => {
+        setProfileAnchorEl(null);
     };
 
     const unreadCount = notifications.filter(n => !n.isRead).length;
@@ -109,9 +124,22 @@ const AdminNavbar = ({ onSearch }) => {
                 <IconButton sx={{ color: "#111827" }}>
                     <SettingsOutlinedIcon />
                 </IconButton>
-                <IconButton sx={{ color: "#111827" }}>
+                <IconButton sx={{ color: "#111827" }} onClick={handleProfileMenuOpen}>
                     <PersonOutlinedIcon />
                 </IconButton>
+                <Menu
+                    anchorEl={profileAnchorEl}
+                    open={Boolean(profileAnchorEl)}
+                    onClose={handleProfileMenuClose}
+                >
+                    <MenuItem>
+                        <Typography>
+                            <Link to={`/viewprofile/${userLG._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                Update Status
+                            </Link>
+                        </Typography>
+                    </MenuItem>
+                </Menu>
             </Box>
         </Box>
     );
