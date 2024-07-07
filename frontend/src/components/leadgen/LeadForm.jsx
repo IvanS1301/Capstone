@@ -162,7 +162,6 @@ const LeadForm = () => {
               value={leadData.phonenumber}
               onChange={handleChange}
               margin="normal"
-              error={emptyFields.includes('phonenumber')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -207,7 +206,6 @@ const LeadForm = () => {
               value={leadData.emailaddress}
               onChange={handleChange}
               margin="normal"
-              error={emptyFields.includes('emailaddress')}
             />
           </Grid>
           <Grid item xs={12}>
