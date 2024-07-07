@@ -98,6 +98,7 @@ const AgentUpdateStatus = ({ userId, onUserUpdate }) => {
                         name="status"
                         value={userData.status}
                         onChange={handleChange}
+                        label="Status"
                     >
                         <MenuItem value=""><em>Choose One</em></MenuItem>
                         <MenuItem value="Start Shift">Start Shift</MenuItem>

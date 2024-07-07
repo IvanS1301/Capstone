@@ -109,6 +109,7 @@ const UpdateUserForm = ({ userId, onUserUpdate }) => {
           name="role"
           value={userData.role}
           onChange={handleChange}
+          label="Role"
         >
           <MenuItem value=""><em>Choose One</em></MenuItem>
           <MenuItem value="Lead Generation">Lead Generation</MenuItem>
@@ -123,6 +124,7 @@ const UpdateUserForm = ({ userId, onUserUpdate }) => {
           name="team"
           value={userData.team}
           onChange={handleChange}
+          label="Team"
         >
           <MenuItem value=""><em>Choose One</em></MenuItem>
           <MenuItem value="Team A">Team A</MenuItem>

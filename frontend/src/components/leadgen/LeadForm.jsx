@@ -117,6 +117,15 @@ const LeadForm = () => {
                 name="type"
                 value={leadData.type}
                 onChange={handleChange}
+                label="Type"
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: 240, // Adjust the maximum height
+                      width: 250 // Adjust the width
+                    }
+                  }
+                }}
               >
                 <MenuItem value=""><em>Choose One</em></MenuItem>
                 <MenuItem value="Warehouse">Warehouse</MenuItem>
@@ -194,6 +203,7 @@ const LeadForm = () => {
               fullWidth
               label="Email Address"
               name="emailaddress"
+              type="email"
               value={leadData.emailaddress}
               onChange={handleChange}
               margin="normal"

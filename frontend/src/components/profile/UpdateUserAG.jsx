@@ -103,6 +103,7 @@ const UpdateUserAG = ({ userId, onUserUpdate }) => {
           onChange={handleChange}
           margin="normal"
           InputLabelProps={{ shrink: true }}
+          required
         />
         <TextField
           fullWidth
@@ -111,6 +112,7 @@ const UpdateUserAG = ({ userId, onUserUpdate }) => {
           value={userData.number}
           onChange={handleChange}
           margin="normal"
+          required
         />
         <TextField
           fullWidth
@@ -119,6 +121,7 @@ const UpdateUserAG = ({ userId, onUserUpdate }) => {
           value={userData.homeaddress}
           onChange={handleChange}
           margin="normal"
+          required
         />
         <FormControl fullWidth margin="normal">
           <InputLabel id="gender-label">Gender</InputLabel>
@@ -127,6 +130,8 @@ const UpdateUserAG = ({ userId, onUserUpdate }) => {
             name="gender"
             value={userData.gender}
             onChange={handleChange}
+            label="Gender"
+            required
           >
             <MenuItem value=""><em>Choose One</em></MenuItem>
             <MenuItem value="Male">Male</MenuItem>
