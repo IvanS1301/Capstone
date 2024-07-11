@@ -71,7 +71,7 @@ const AgentAnalytics = () => {
                     ) : (
                             <div className="flex flex-col w-full items-center overflow-y-hidden mt-5">
                                 <div className="w-full">
-                                    <AgentAnalyticsTabs bookedUnits={userBookedUnits} recentBookings={recentBookings}/>
+                                    <AgentAnalyticsTabs bookedUnits={userBookedUnits} recentBookings={recentBookings} />
                                 </div>
                             </div>
                         )}
