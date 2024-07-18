@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Visibility, Edit } from '@mui/icons-material';
+import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 
 /** --- IMPORT TIME AND DATE FORMAT --- */
 import moment from 'moment';
@@ -11,12 +12,15 @@ import moment from 'moment';
 /** --- FOR MODAL --- */
 import AgentEditForm from '../../pages/agent/AgentEditForm';
 import AgentReadForm from '../../pages/agent/AgentReadForm';
+import AddEmail from '../../pages/agent/AddEmail';
 
 const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
-  const [openViewModal, setOpenViewModal] = useState(false); // State for ViewLead modal
+  const [openViewModal, setOpenViewModal] = useState(false);
+  const [openEmailModal, setOpenEmailModal] = useState(false);
+  const [emailaddress, setEmailAddress] = useState('');
 
   const handleOpenAssignModal = (unassignedId) => {
     setSelectedLeadId(unassignedId);
@@ -38,6 +42,18 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
     setSelectedLeadId(null);
   };
 
+  const handleOpenEmailModal = (unassignedId, email) => {
+    setSelectedLeadId(unassignedId);
+    setEmailAddress(email);
+    setOpenEmailModal(true);
+  };
+
+  const handleCloseEmailModal = () => {
+    setOpenEmailModal(false);
+    setEmailAddress('');
+    setSelectedLeadId(null);
+  };
+
   const iconButtonStyle = { color: "#111827" };
 
   // Custom rendering function for status
@@ -45,13 +61,13 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
     const getStatusColor = (callDisposition) => {
       switch (callDisposition) {
         case 'Booked':
-          return { backgroundColor: '#065f46', color: 'white' }; // bg-emerald-700
+          return { backgroundColor: '#065f46', color: 'white' };
         case 'Warm Lead':
-          return { backgroundColor: '#7f1d1d', color: 'white' }; // bg-rose-900
+          return { backgroundColor: '#7f1d1d', color: 'white' };
         case 'Email':
-          return { backgroundColor: '#164e63', color: 'white' }; // bg-cyan-800
+          return { backgroundColor: '#164e63', color: 'white' };
         default:
-          return { color: '#0c0a09' }; // Default color for other statuses
+          return { color: '#0c0a09' };
       }
     };
 
@@ -71,7 +87,7 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
       field: "_id",
       headerName: "ID",
       flex: 1,
-      minWidth: 100,
+      minWidth: 80,
       renderCell: (params) => params.value.slice(20, 26),
     },
     {
@@ -124,7 +140,7 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
       field: "updatedAt",
       headerName: "Updated At",
       flex: 1,
-      minWidth: 150,
+      minWidth: 140,
       renderCell: (params) => {
         const callDisposition = params.row.callDisposition;
         return callDisposition ? moment(params.row.updatedAt).startOf('minute').fromNow() : '';
@@ -134,11 +150,12 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
       field: "actions",
       headerName: "Actions",
       flex: 1,
-      minWidth: 200,
+      minWidth: 180,
       renderCell: (params) => (
         <Box>
           <IconButton onClick={() => handleOpenViewModal(params.row._id)} style={iconButtonStyle}><Visibility /></IconButton>
           <IconButton onClick={() => handleOpenAssignModal(params.row._id)} style={iconButtonStyle}><Edit /></IconButton>
+          <IconButton onClick={() => handleOpenEmailModal(params.row._id, params.row.emailaddress)} style={iconButtonStyle}><AttachEmailIcon /></IconButton>
         </Box>
       )
     },
@@ -157,10 +174,10 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
           sx={{ m: "0 0 5px 0", mt: "25px" }}
         >
           ASSIGNED LEADS
-            </Typography>
+        </Typography>
         <Typography variant="h5" color="#111827">
           List of Assigned Leads
-            </Typography>
+        </Typography>
       </Box>
       <Box
         m="40px 0 0 0"
@@ -185,7 +202,7 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
             fontSize: "18px"
           },
           "& .MuiDataGrid-sortIcon": {
-            color: "#ffffff !important", // Change sort icon color to white
+            color: "#ffffff !important",
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: "#d1d5db",
@@ -200,10 +217,10 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
             color: "#ffffff",
           },
           "& .MuiTablePagination-root": {
-            color: "#ffffff !important", // Ensure the pagination text is white
+            color: "#ffffff !important",
           },
           "& .MuiTablePagination-actions .MuiButtonBase-root": {
-            color: "#ffffff !important", // Ensure the pagination buttons are white
+            color: "#ffffff !important",
           },
           "& .MuiCheckbox-root": {
             color: `#111827 !important`,
@@ -258,6 +275,29 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
       </Modal>
 
       <Modal
+        open={openEmailModal}
+        onClose={handleCloseEmailModal}
+        aria-labelledby="email-lead-modal-title"
+        aria-describedby="email-lead-modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 900,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 5,
+          }}
+        >
+          {selectedLeadId && <AddEmail email={emailaddress} onLeadUpdate={onLeadUpdate} />}
+        </Box>
+      </Modal>
+
+      <Modal
         open={openViewModal}
         onClose={handleCloseViewModal}
         aria-labelledby="view-lead-modal-title"
@@ -272,14 +312,11 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
             width: '80%',
             maxHeight: '80%',
             overflow: 'auto',
-
-
           }}
         >
           {selectedLeadId && <AgentReadForm unassignedId={selectedLeadId} />}
         </Box>
       </Modal>
-
     </Box>
   );
 };

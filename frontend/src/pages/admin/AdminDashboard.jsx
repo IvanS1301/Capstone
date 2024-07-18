@@ -20,14 +20,15 @@ const AdminDashboard = () => {
     const [recentBookings, setRecentBookings] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredBookings, setFilteredBookings] = useState([]);
+    const [timePeriod, setTimePeriod] = useState('');
 
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback(async (period = 'annually') => {
         try {
             const [inventoryRes, bookingsRes] = await Promise.all([
-                fetch('http://localhost:4000/api/inventories/inventory', {
+                fetch(`http://localhost:4000/api/inventories/inventory?range=${period}`, {
                     headers: { 'Authorization': `Bearer ${userLG.token}` },
                 }),
-                fetch('http://localhost:4000/api/bookings/recent-bookings', {
+                fetch(`http://localhost:4000/api/bookings/recent-bookings?range=${period}`, {
                     headers: { 'Authorization': `Bearer ${userLG.token}` },
                 })
             ]);
@@ -40,7 +41,7 @@ const AdminDashboard = () => {
             if (inventoryRes.ok && bookingsRes.ok) {
                 setInventory(inventoryData);
                 setRecentBookings(bookingsData);
-                setFilteredBookings(bookingsData); // Initialize filteredBookings with all bookings
+                setFilteredBookings(bookingsData);
                 dispatch({ type: 'SET_INVENTORY', payload: inventoryData });
                 dispatch({ type: 'SET_BOOKINGS', payload: bookingsData });
             } else {
@@ -54,8 +55,12 @@ const AdminDashboard = () => {
     }, [dispatch, userLG]);
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        fetchData(timePeriod);
+    }, [fetchData, timePeriod]);
+
+    const handleTimePeriodChange = (newPeriod) => {
+        setTimePeriod(newPeriod);
+    };
 
     const handleSearch = useCallback((query) => {
         const lowerCaseQuery = query.toLowerCase();
@@ -100,7 +105,7 @@ const AdminDashboard = () => {
                 <div className="p-1 flex-grow flex justify-center items-center">
                     <div className="flex flex-col w-full items-center overflow-y-hidden">
                         <div className="w-full">
-                            <DashboardTabs inventory={inventory} recentBookings={searchQuery ? filteredBookings : recentBookings} />
+                            <DashboardTabs inventory={inventory} recentBookings={searchQuery ? filteredBookings : recentBookings} timePeriod={timePeriod} onTimePeriodChange={handleTimePeriodChange} />
                         </div>
                     </div>
                 </div>
