@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 /** --- MATERIAL UI --- */
-import { Box, IconButton, Modal, Typography } from "@mui/material";
+import { Box, IconButton, Modal, Typography, Snackbar } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Visibility, Edit } from '@mui/icons-material';
+import { Visibility, Edit, Email, Call as CallIcon } from '@mui/icons-material';
 
 /** --- IMPORT TIME AND DATE FORMAT --- */
 import moment from 'moment';
@@ -12,11 +12,16 @@ import moment from 'moment';
 import AgentEditForm from '../../pages/agent/AgentEditForm';
 import AgentReadForm from '../../pages/agent/AgentReadForm';
 
+/** --- FOR FONT AWESOME --- */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle as faCircleCheck } from '@fortawesome/free-solid-svg-icons'; // Updated import
+
 const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [openViewModal, setOpenViewModal] = useState(false); // State for ViewLead modal
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // State for Snackbar
 
   const handleOpenAssignModal = (unassignedId) => {
     setSelectedLeadId(unassignedId);
@@ -42,27 +47,53 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
 
   // Custom rendering function for status
   const renderStatusCell = (params) => {
-    const getStatusColor = (status) => {
-      switch (status) {
+    const getStatusColor = (callDisposition) => {
+      switch (callDisposition) {
         case 'Booked':
-          return 'bg-emerald-700';
+          return { backgroundColor: '#0d9488', color: 'black' }; // bg-emerald-700
         case 'Warm Lead':
-          return 'bg-rose-700';
+          return { backgroundColor: '#818cf8', color: 'black' }; // bg-rose-900
         case 'Email':
-          return 'bg-cyan-800';
+          return { backgroundColor: '#2563eb', color: 'black' }; // bg-cyan-800
         default:
-          return 'text-gray-950'; // Default color for unrecognized statuses
+          return { color: '#0c0a09' }; // Default color for other statuses
       }
     };
 
-    const statusColorClass = getStatusColor(params.value);
+    const statusStyle = getStatusColor(params.value);
 
     return (
-      <div className="flex items-center h-full mr-3 mb-4">
-        <div className={`flex items-center justify-center text-white rounded-full w-40 h-7 ${statusColorClass}`}>
+      <div style={{ display: 'flex', alignItems: 'center', height: '100%', marginRight: '12px', marginBottom: '16px' }}>
+        <div style={{ ...statusStyle, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '9999px', width: '160px', height: '28px' }}>
           {params.value}
         </div>
       </div>
+    );
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    setSnackbarOpen(true); // Open Snackbar to indicate copy
+  };
+
+  const renderPhoneNumberCell = (params) => {
+    return (
+      <Typography
+      variant="body1"
+      component="div"  // Use 'div' instead of 'p' for consistency
+      style={{
+        fontSize: '18px',
+        color: '#111827',
+        cursor: 'pointer',
+        display: 'flex',            // Enable flexbox layout
+        justifyContent: 'center',  // Horizontally center content
+        alignItems: 'center',      // Vertically center content
+        height: '100%',            // Ensure full height
+      }}
+      onClick={() => copyToClipboard(params.value)}
+    >
+      {params.value}
+    </Typography>
     );
   };
 
@@ -71,9 +102,8 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
       field: "_id",
       headerName: "ID",
       flex: 1,
-      minWidth: 50,
+      minWidth: 100,
       renderCell: (params) => params.value.slice(20, 26),
-      cellClassName: "name-column--cell",
     },
     {
       field: "name",
@@ -91,7 +121,9 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
       field: "phonenumber",
       headerName: "Phone Number",
       flex: 1,
-      minWidth: 180,
+      minWidth: 160,
+      renderCell: renderPhoneNumberCell,
+      
     },
     {
       field: "emailaddress",
@@ -110,7 +142,8 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
       field: "remarks",
       headerName: "Remarks",
       flex: 1,
-      minWidth: 180
+      minWidth: 180,
+      cellClassName: "name-column--cell",
     },
     {
       field: "Distributed",
@@ -139,32 +172,32 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
         <Box>
           <IconButton onClick={() => handleOpenViewModal(params.row._id)} style={iconButtonStyle}><Visibility /></IconButton>
           <IconButton onClick={() => handleOpenAssignModal(params.row._id)} style={iconButtonStyle}><Edit /></IconButton>
+          <IconButton href={`skype:${params.row.phonenumber}?call`} style={iconButtonStyle}><CallIcon /></IconButton>
+          <IconButton onClick={() => handleOpenAssignModal(params.row._id)} style={iconButtonStyle}><Email /></IconButton>
+
+          {/* <IconButton href={`skype:${params.row.phonenumber}?call`} style={{ color: '#111827' }}><FontAwesomeIcon icon={faPhone} /></IconButton> */}
         </Box>
       )
     },
   ];
 
-  // Filter out rows where callDisposition is 'Do Not Call'
   const filteredLeads = unassignedLeads.filter(lead => lead.callDisposition !== 'Do Not Call');
 
   return (
-    <Box m="20px">
-      <Box mb="20px">
+    <Box m="0px" position="relative">
+      <Box mb="1px">
         <Typography
           variant="h4"
           color="#111827"
-          fontWeight="bold"
-          sx={{ m: "0 0 5px 0", mt: "25px" }}
+          fontWeight={1000}
+          sx={{ m: "0 0 3px 5px", mt: "1px" }}
         >
           ASSIGNED LEADS
-            </Typography>
-        <Typography variant="h5" color="#111827">
-          List of Assigned Leads
-            </Typography>
+        </Typography>
       </Box>
       <Box
-        m="40px 0 0 0"
-        height="75vh"
+        m="5px 0 0 0"
+        height="86vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -173,7 +206,7 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
             borderBottom: "none",
             color: "#111827",
             borderTop: `1px solid #525252 !important`,
-            fontWeight: "600"
+            fontWeight: "400"
           },
           "& .name-column--cell": {
             color: "#1d4ed8",
@@ -184,23 +217,34 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
             color: "#e0e0e0",
             fontSize: "18px"
           },
+          "& .MuiDataGrid-sortIcon": {
+            color: "#ffffff !important", // Change sort icon color to white
+          },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: "#d1d5db",
             fontSize: "18px",
           },
           "& .MuiDataGrid-headerContainer": {
             borderTop: "none",
+            justifyContent: 'flex-end',
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
             backgroundColor: "#111827",
+            color: "#ffffff",
+          },
+          "& .MuiTablePagination-root": {
+            color: "#ffffff !important", // Ensure the pagination text is white
+          },
+          "& .MuiTablePagination-actions .MuiButtonBase-root": {
+            color: "#ffffff !important", // Ensure the pagination buttons are white
           },
           "& .MuiCheckbox-root": {
             color: `#111827 !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `#111827 !important`,
-            fontWeight: "800"
+            fontWeight: "500"
           },
         }}
       >
@@ -262,14 +306,25 @@ const AgentLeadDetails = ({ unassignedLeads, userlgs, onLeadUpdate }) => {
             width: '80%',
             maxHeight: '80%',
             overflow: 'auto',
-
-
           }}
         >
           {selectedLeadId && <AgentReadForm unassignedId={selectedLeadId} />}
         </Box>
       </Modal>
 
+      {/* Snackbar for clipboard copy confirmation */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message={
+          <Box display="flex" alignItems="center">
+            <FontAwesomeIcon icon={faCircleCheck} style={{ color: "#63E6BE", marginRight: '8px' }} />
+            <Typography variant="body1">Phone number copied to clipboard</Typography>
+          </Box>
+        }
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} // Snackbar position
+      />
     </Box>
   );
 };
