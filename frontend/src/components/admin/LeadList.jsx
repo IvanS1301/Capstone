@@ -108,11 +108,11 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
     const getStatusColor = (callDisposition) => {
       switch (callDisposition) {
         case 'Booked':
-          return { backgroundColor: '#065f46', color: 'white' }; // bg-emerald-700
+          return { backgroundColor: '#0d9488', color: 'black' }; // bg-emerald-700
         case 'Warm Lead':
-          return { backgroundColor: '#7f1d1d', color: 'white' }; // bg-rose-900
+          return { backgroundColor: '#818cf8', color: 'black' }; // bg-rose-900
         case 'Email':
-          return { backgroundColor: '#164e63', color: 'white' }; // bg-cyan-800
+          return { backgroundColor: '#2563eb', color: 'black' }; // bg-cyan-800
         default:
           return { color: '#0c0a09' }; // Default color for other statuses
       }
@@ -134,20 +134,20 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
       field: "_id",
       headerName: "ID",
       flex: 1,
-      minWidth: 90,
+      minWidth: 100,
       renderCell: (params) => params.value.slice(20, 26),
     },
     {
       field: "name",
       headerName: "Name",
       flex: 1,
-      minWidth: 230,
+      minWidth: 200,
     },
     {
       field: "type",
       headerName: "Type",
       flex: 1,
-      minWidth: 180,
+      minWidth: 160,
     },
     {
       field: "emailaddress",
@@ -161,6 +161,14 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
       flex: 1,
       minWidth: 160,
       renderCell: (params) => userIdToNameMap[params.value] || params.value,
+    },
+    {
+      field: "createdAt",
+      headerName: "Lead Gen Date",
+      flex: 1,
+      minWidth: 180,
+      renderCell: (params) =>
+        moment(params.row.createdAt).format('MMM-D-YYYY'),
     },
     {
       field: "callDisposition",
@@ -212,6 +220,9 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
     },
   ];
 
+  /** --- HEADER SUBTITLE FORMAT --- */
+  const formattedDate = moment(tlLeads.updatedAt).format('MMMM Do YYYY, h:mm:ss a');
+
   // Filter out rows where callDisposition is 'Do Not Call'
   const filteredLeads = tlLeads.filter(lead => lead.callDisposition !== 'Do Not Call');
 
@@ -227,8 +238,8 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
           LEADS
             </Typography>
         <Typography variant="h5" color="#111827">
-          List of Leads
-            </Typography>
+          {`as of ${formattedDate}`}
+        </Typography>
       </Box>
       <Box
         m="40px 0 0 0"
@@ -241,7 +252,7 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
             borderBottom: "none",
             color: "#111827",
             borderTop: `1px solid #525252 !important`,
-            fontWeight: "600"
+            fontWeight: "400"
           },
           "& .name-column--cell": {
             color: "#1d4ed8",
@@ -278,7 +289,7 @@ const LeadList = ({ tlLeads, userlgs, onLeadUpdate }) => {
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `#111827 !important`,
-            fontWeight: "800"
+            fontWeight: "500"
           },
         }}
       >

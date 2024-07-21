@@ -129,6 +129,9 @@ const Bookings = ({ recentBookings, onLeadDelete }) => {
         },
     ];
 
+    /** --- HEADER SUBTITLE FORMAT --- */
+    const formattedDate = moment(recentBookings.updatedAt).format('MMMM Do YYYY, h:mm:ss a');
+
     return (
         <Box m="20px">
             <Box mb="20px">
@@ -141,8 +144,8 @@ const Bookings = ({ recentBookings, onLeadDelete }) => {
                     Recent Bookings
             </Typography>
                 <Typography variant="h5" color="#111827">
-                    List of Bookings
-            </Typography>
+                    {`as of ${formattedDate}`}
+                </Typography>
             </Box>
             <Box
                 m="40px 0 0 0"
@@ -155,7 +158,7 @@ const Bookings = ({ recentBookings, onLeadDelete }) => {
                         borderBottom: "none",
                         color: "#111827",
                         borderTop: `1px solid #525252 !important`,
-                        fontWeight: "600"
+                        fontWeight: "400"
                     },
                     "& .name-column--cell": {
                         color: "#1d4ed8",
@@ -192,7 +195,7 @@ const Bookings = ({ recentBookings, onLeadDelete }) => {
                     },
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                         color: `#111827 !important`,
-                        fontWeight: "800"
+                        fontWeight: "500"
                     },
                 }}
             >

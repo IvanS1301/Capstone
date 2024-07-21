@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 /** --- IMPORT CONTEXT --- */
 import { useEmailsContext } from "../../hooks/useEmailsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -10,8 +11,8 @@ import { Delete, Visibility } from '@mui/icons-material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-/** --- FOR MODAL --- */
-import ReadEmail from '../../pages/admin/ReadEmail';
+/** --- IMPORT REACT ROUTER --- */
+import { Link } from 'react-router-dom';
 
 /** --- TIME AND DATE FORMAT --- */
 import moment from 'moment'
@@ -21,7 +22,6 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
     const { userLG } = useAuthContext();
     const [selectedRows, setSelectedRows] = useState([]);
     const [selectedEmailId, setSelectedEmailId] = useState(null);
-    const [openViewModal, setOpenViewModal] = useState(false); // State for ViewLead modal
 
     /** --- FOR DELETE BUTTON --- */
     const [loadingDelete, setLoadingDelete] = useState(false); // State for delete loading
@@ -79,16 +79,6 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
-    };
-
-    const handleOpenViewModal = (emailId) => {
-        setSelectedEmailId(emailId);
-        setOpenViewModal(true);
-    };
-
-    const handleCloseViewModal = () => {
-        setOpenViewModal(false);
-        setSelectedEmailId(null);
     };
 
     const iconButtonStyle = { color: "#111827" };
@@ -149,12 +139,19 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
             minWidth: 150,
             renderCell: (params) => (
                 <Box>
-                    <IconButton onClick={() => handleOpenViewModal(params.row._id)} style={iconButtonStyle}><Visibility /></IconButton>
-                    <IconButton onClick={() => handleClick(params.row._id)} style={iconButtonStyle}><Delete /></IconButton>
+                    <IconButton component={Link} to={`/viewemail/${params.row._id}`} style={iconButtonStyle}>
+                        <Visibility />
+                    </IconButton>
+                    <IconButton onClick={() => handleClick(params.row._id)} style={iconButtonStyle}>
+                        <Delete />
+                    </IconButton>
                 </Box>
             )
         },
     ];
+
+    /** --- HEADER SUBTITLE FORMAT --- */
+    const formattedDate = moment(emails.updatedAt).format('MMMM Do YYYY, h:mm:ss a');
 
     return (
         <Box m="20px">
@@ -168,8 +165,8 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
                     EMAILS
             </Typography>
                 <Typography variant="h5" color="#111827">
-                    List of Emails Sent
-            </Typography>
+                    {`as of ${formattedDate}`}
+                </Typography>
             </Box>
             <Box
                 m="40px 0 0 0"
@@ -182,7 +179,7 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
                         borderBottom: "none",
                         color: "#111827",
                         borderTop: `1px solid #525252 !important`,
-                        fontWeight: "600"
+                        fontWeight: "400"
                     },
                     "& .name-column--cell": {
                         color: "#1d4ed8",
@@ -219,7 +216,7 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
                     },
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                         color: `#111827 !important`,
-                        fontWeight: "800"
+                        fontWeight: "500"
                     },
                 }}
             >
@@ -296,29 +293,6 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
                     <div style={{ fontSize: '20px', margin: '20px 0' }}>Are you sure you want to delete this email?</div>
                     <Button onClick={handleDeleteConfirmation} variant="contained" color="primary" sx={{ mr: 2 }}>Yes</Button>
                     <Button onClick={handleCloseConfirmation} variant="contained" color="secondary">No</Button>
-                </Box>
-            </Modal>
-
-            <Modal
-                open={openViewModal}
-                onClose={handleCloseViewModal}
-                aria-labelledby="view-lead-modal-title"
-                aria-describedby="view-lead-modal-description"
-            >
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '80%',
-                        maxHeight: '80%',
-                        overflow: 'auto',
-
-
-                    }}
-                >
-                    {selectedEmailId && <ReadEmail emailId={selectedEmailId} />}
                 </Box>
             </Modal>
 
