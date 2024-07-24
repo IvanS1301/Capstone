@@ -25,6 +25,8 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import FireplaceIcon from '@mui/icons-material/Fireplace';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
+import EmailIcon from '@mui/icons-material/Email';
+import NotInterestedIcon from '@mui/icons-material/NotInterested';
 
 /** --- IMPORT CHART --- */
 import Header from '../Chart/Header';
@@ -70,6 +72,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
     const noAnswerCount = inventory.callDispositionCounts ? inventory.callDispositionCounts["No Answer"] || 0 : 0;
     const notInterested = inventory.callDispositionCounts ? inventory.callDispositionCounts["Not Interested"] || 0 : 0;
     const voicemailCount = inventory.callDispositionCounts ? inventory.callDispositionCounts["Voicemail"] || 0 : 0;
+    const emailCount = inventory.callDispositionCounts ? inventory.callDispositionCounts["Email"] || 0 : 0;
 
     /** --- HEADER SUBTITLE FORMAT --- */
     const formattedDate = moment(inventory.updatedAt).format('MMMM Do YYYY, h:mm:ss a');
@@ -177,7 +180,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                                 letterSpacing: '3px',
                                 backgroundColor: 'hsl(261deg 80% 48%)',
                                 color: 'hsl(0, 0%, 100%)',
-                                boxShadow: '0px 7px 29px 0px rgb(93 24 220)',
+                                boxShadow: '0px 0px 9px 0px rgb(93 24 220)',
                             }
                         }}
                     >
@@ -204,7 +207,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                                 letterSpacing: '3px',
                                 backgroundColor: 'hsl(261deg 80% 48%)',
                                 color: 'hsl(0, 0%, 100%)',
-                                boxShadow: '0px 7px 29px 0px rgb(93 24 220)',
+                                boxShadow: '0px 0px 9px 0px rgb(93 24 220)',
                             }
                         }}
                     >
@@ -302,7 +305,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                         <SaveAsSharpIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
                         <Box>
                             <Typography variant="h3" color="#e0e0e0">{inventory.numberOfUpdatedLeads}</Typography>
-                            <Typography variant="body1" color="#e0e0e0">Updated Leads</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Call Disposition</Typography>
                         </Box>
                     </Box>
                     <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
@@ -343,7 +346,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                                     letterSpacing: '3px',
                                     backgroundColor: 'hsl(261deg 80% 48%)',
                                     color: 'hsl(0, 0%, 100%)',
-                                    boxShadow: '0px 7px 29px 0px rgb(93 24 220)',
+                                    boxShadow: '0px 0px 9px 0px rgb(93 24 220)',
                                 }
                             }}
                         >
@@ -368,7 +371,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                                     letterSpacing: '3px',
                                     backgroundColor: 'hsl(261deg 80% 48%)',
                                     color: 'hsl(0, 0%, 100%)',
-                                    boxShadow: '0px 7px 29px 0px rgb(93 24 220)',
+                                    boxShadow: '0px 0px 9px 0px rgb(93 24 220)',
                                 }
                             }}
                         >
@@ -393,7 +396,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                                     letterSpacing: '3px',
                                     backgroundColor: 'hsl(261deg 80% 48%)',
                                     color: 'hsl(0, 0%, 100%)',
-                                    boxShadow: '0px 7px 29px 0px rgb(93 24 220)',
+                                    boxShadow: '0px 0px 9px 0px rgb(93 24 220)',
                                 }
                             }}
                         >
@@ -418,7 +421,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                                     letterSpacing: '3px',
                                     backgroundColor: 'hsl(261deg 80% 48%)',
                                     color: 'hsl(0, 0%, 100%)',
-                                    boxShadow: '0px 7px 29px 0px rgb(93 24 220)',
+                                    boxShadow: '0px 0px 9px 0px rgb(93 24 220)',
                                 }
                             }}
                         >
@@ -451,15 +454,14 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                             justifyContent="space-between"
                             alignItems="center"
                             borderBottom="2px solid #1F2A40"
-                            px="15px"
-                            py="10px"
+                            p="15px"
                             backgroundColor="#192231"
                         >
                             <Typography color="#e0e0e0" variant="h5" fontSize="25px" fontWeight="600">
                                 Recent Bookings
                             </Typography>
                         </Box>
-                        <Box display="flex" flexDirection="column" height="100%">
+                        <Box display="flex" flexDirection="column" height="100%" overflow="auto">
                             <Box
                                 display="flex"
                                 justifyContent="space-around"
@@ -569,6 +571,13 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                             <Typography variant="body1" color="#e0e0e0" fontSize="20px" fontWeight="200">Callback</Typography>
                         </Box>
                     </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <EmailIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{emailCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0" fontSize="20px" fontWeight="200">Email</Typography>
+                        </Box>
+                    </Box>
                 </Box>
 
                 <Box
@@ -605,6 +614,13 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                         <Box>
                             <Typography variant="h3" color="#e0e0e0">{residentialCount}</Typography>
                             <Typography variant="body1" color="#e0e0e0" fontSize="20px" fontWeight="200">Residential</Typography>
+                        </Box>
+                    </Box>
+                    <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">
+                        <NotInterestedIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
+                        <Box>
+                            <Typography variant="h3" color="#e0e0e0">{notEligibleCount}</Typography>
+                            <Typography variant="body1" color="#e0e0e0" fontSize="20px" fontWeight="200">Not Eligible</Typography>
                         </Box>
                     </Box>
                 </Box>
