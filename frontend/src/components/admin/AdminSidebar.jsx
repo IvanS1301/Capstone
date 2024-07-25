@@ -11,6 +11,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import { Typography } from "@mui/material";
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 
 /** --- IMPORT HOOKS --- */
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -55,6 +56,9 @@ const AdminSidebar = () => {
         break;
       case "/AdminSignup":
         setSelected("Add New User");
+        break;
+      case "/AdminStatus":
+        setSelected("Status Logs");
         break;
       case `/viewprofile/${userLG._id}`:
         setSelected("Personal Info");
@@ -188,6 +192,14 @@ const AdminSidebar = () => {
           selected={selected}
           setSelected={setSelected}
         />
+        <Item
+          title="Status Logs"
+          to="/AdminStatus"
+          icon={<PermContactCalendarIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
+
 
         {!isCollapsed && (
           <div className="text-[#a3a3a3] m-3 ml-7">

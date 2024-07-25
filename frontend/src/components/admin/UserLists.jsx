@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 /** --- MATERIAL UI --- */
 import { Box, IconButton, Modal, CircularProgress, Button, Snackbar, Typography } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { Delete, Visibility, Edit } from '@mui/icons-material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
@@ -17,6 +17,9 @@ import moment from 'moment'
 /** --- FOR MODAL --- */
 import EditUserInfo from '../../pages/profile/EditUserInfo';
 import ReadUserInfo from '../../pages/profile/ReadUserInfo';
+
+/** --- IMPORT CHART --- */
+import CustomToolbar from '../Chart/CustomToolbar';
 
 const UserLists = ({ userlgs, onUserUpdate }) => {
   const { dispatch } = useUsersContext();
@@ -333,7 +336,7 @@ const UserLists = ({ userlgs, onUserUpdate }) => {
             color: `#111827 !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `#111827 !important`,
+            color: `#e0e0e0 !important`,
             fontWeight: "500"
           },
         }}
@@ -352,7 +355,7 @@ const UserLists = ({ userlgs, onUserUpdate }) => {
           }}
           selectionModel={selectedRows}
           slots={{
-            toolbar: GridToolbar,
+            toolbar: CustomToolbar,
           }}
           getRowId={row => row._id}
         />

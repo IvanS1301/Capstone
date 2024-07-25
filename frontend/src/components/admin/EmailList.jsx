@@ -6,7 +6,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 /** --- MATERIAL UI --- */
 import { Box, Button, Snackbar, IconButton, Modal, CircularProgress, Typography } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { Delete, Visibility } from '@mui/icons-material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -16,6 +16,9 @@ import { Link } from 'react-router-dom';
 
 /** --- TIME AND DATE FORMAT --- */
 import moment from 'moment'
+
+/** --- IMPORT CHART --- */
+import CustomToolbar from '../Chart/CustomToolbar';
 
 const EmailList = ({ emails, userlgs, onEmailDelete }) => {
     const { dispatch } = useEmailsContext();
@@ -215,7 +218,7 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
                         color: `#111827 !important`,
                     },
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                        color: `#111827 !important`,
+                        color: `#e0e0e0 !important`,
                         fontWeight: "500"
                     },
                 }}
@@ -234,7 +237,7 @@ const EmailList = ({ emails, userlgs, onEmailDelete }) => {
                     }}
                     selectionModel={selectedRows}
                     slots={{
-                        toolbar: GridToolbar,
+                        toolbar: CustomToolbar,
                     }}
                     getRowId={row => row._id}
                 />
