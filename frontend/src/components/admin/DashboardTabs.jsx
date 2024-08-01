@@ -228,6 +228,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
             <Modal
                 open={showCalendar}
                 onClose={handleToggleCalendar}
+                className="bounce-in-modal"
                 aria-labelledby="calendar-modal-title"
                 aria-describedby="calendar-modal-description"
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -364,7 +365,7 @@ const DashboardTabs = ({ inventory, recentBookings, timePeriod, onTimePeriodChan
                         <SaveAsSharpIcon sx={{ color: "#f1f1f1", fontSize: "40px", mr: "50px" }} />
                         <Box>
                             <Typography variant="h3" color="#e0e0e0">{inventory.numberOfUpdatedLeads}</Typography>
-                            <Typography variant="body1" color="#e0e0e0">Call Disposition</Typography>
+                            <Typography variant="body1" color="#e0e0e0">Updated Leads</Typography>
                         </Box>
                     </Box>
                     <Box flex="1" display="flex" alignItems="center" justifyContent="center" backgroundColor="#111827" p="10px" borderRadius="8px">

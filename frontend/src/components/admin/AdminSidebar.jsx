@@ -128,18 +128,21 @@ const AdminSidebar = () => {
 
         <div className="mt-5">
           <div className="flex justify-center items-center">
-            <img
-              alt="profile-user"
-              width="100px"
-              height="100px"
-              src={process.env.PUBLIC_URL + '/icon.png'}
-              className="cursor-pointer rounded-full"
-            />
+            <div
+              className={`rounded-full overflow-hidden transition-all duration-300 ${isCollapsed ? 'w-12 h-12' : 'w-24 h-24'}`}
+              style={{ borderRadius: '50%' }}
+            >
+              <img
+                alt="profile-user"
+                src={userLG.profileImage || process.env.PUBLIC_URL + '/icon.png'}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
           </div>
         </div>
 
         {!isCollapsed && (
-          <div className="text-center">
+          <div className="text-center mt-3">
             <h6 className="text-white font-bold mt-1 mb-0">{userLG.name}</h6>
             <h6 className="text-[#4cceac] mb-7">{userLG.role}</h6>
           </div>
@@ -148,7 +151,7 @@ const AdminSidebar = () => {
         <Item
           title="Dashboard"
           to="/"
-          icon={<HomeOutlined />}
+          icon={<HomeOutlined sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
@@ -161,14 +164,14 @@ const AdminSidebar = () => {
         <Item
           title="Leads"
           to="/AdminLeads"
-          icon={<ContactsOutlined />}
+          icon={<ContactsOutlined sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
         <Item
           title="Emails"
           to="/AdminEmails"
-          icon={<MarkEmailReadIcon />}
+          icon={<MarkEmailReadIcon sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
@@ -181,21 +184,21 @@ const AdminSidebar = () => {
         <Item
           title="Users"
           to="/AdminUsers"
-          icon={<PeopleOutlined />}
+          icon={<PeopleOutlined sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
         <Item
           title="Add New User"
           to="/AdminSignup"
-          icon={<GroupAddIcon />}
+          icon={<GroupAddIcon sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
         <Item
           title="Status Logs"
           to="/AdminStatus"
-          icon={<PermContactCalendarIcon />}
+          icon={<PermContactCalendarIcon sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
@@ -209,14 +212,14 @@ const AdminSidebar = () => {
         <Item
           title="Recent Bookings"
           to="/RecentBookings"
-          icon={<ReceiptOutlined />}
+          icon={<ReceiptOutlined sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
         <Item
           title="Staff Performance"
           to="/AdminStaff"
-          icon={<AnalyticsIcon />}
+          icon={<AnalyticsIcon sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
@@ -229,7 +232,7 @@ const AdminSidebar = () => {
         <Item
           title="Personal Info"
           to={`/viewprofile/${userLG._id}`}
-          icon={<AccountCircleIcon />}
+          icon={<AccountCircleIcon sx={{ marginRight: '7px' }} />}
           selected={selected}
           setSelected={setSelected}
         />
@@ -241,14 +244,14 @@ const AdminSidebar = () => {
         )}
         <MenuItem
           title="Sign Out"
-          icon={<ExitToAppIcon />}
+          icon={<ExitToAppIcon sx={{ marginRight: '7px' }} />}
           onClick={handleClick}
           style={{ color: "white", padding: "10px 25px" }}
         >
           Sign Out
         </MenuItem>
       </Menu>
-    </Sidebar>
+    </Sidebar >
   );
 };
 

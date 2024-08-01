@@ -114,18 +114,21 @@ const LeadGenSidebar = () => {
 
                 <div className="mt-5">
                     <div className="flex justify-center items-center">
-                        <img
-                            alt="profile-user"
-                            width="100px"
-                            height="100px"
-                            src={process.env.PUBLIC_URL + '/icon.png'}
-                            className="cursor-pointer rounded-full"
-                        />
+                        <div
+                            className={`rounded-full overflow-hidden transition-all duration-300 ${isCollapsed ? 'w-12 h-12' : 'w-24 h-24'}`}
+                            style={{ borderRadius: '50%' }}
+                        >
+                            <img
+                                alt="profile-user"
+                                src={userLG.profileImage || process.env.PUBLIC_URL + '/icon.png'}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                        </div>
                     </div>
                 </div>
 
                 {!isCollapsed && (
-                    <div className="text-center">
+                    <div className="text-center mt-5">
                         <h6 className="text-white font-bold mt-1 mb-0">{userLG.name}</h6>
                         <h6 className="text-[#4cceac] mb-7">{userLG.role}</h6>
                     </div>
@@ -134,7 +137,7 @@ const LeadGenSidebar = () => {
                 <Item
                     title="Dashboard"
                     to="/"
-                    icon={<HomeOutlined />}
+                    icon={<HomeOutlined sx={{ marginRight: '7px' }} />}
                     selected={selected}
                     setSelected={setSelected}
                 />
@@ -147,27 +150,14 @@ const LeadGenSidebar = () => {
                 <Item
                     title="Leads"
                     to="/LeadGenLeads"
-                    icon={<ContactsOutlined />}
+                    icon={<ContactsOutlined sx={{ marginRight: '7px' }} />}
                     selected={selected}
                     setSelected={setSelected}
                 />
                 <Item
                     title="Add New Lead"
                     to="/LeadGenAdd"
-                    icon={<PostAddIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                />
-
-                {!isCollapsed && (
-                    <div className="text-[#a3a3a3] m-3 ml-7">
-                        <Typography sx={{ fontSize: '14px', m: "15px 0 5px 20px" }}>Status</Typography>
-                    </div>
-                )}
-                <Item
-                    title="Status Logs"
-                    to="/LeadGenTime"
-                    icon={<PermContactCalendarIcon />}
+                    icon={<PostAddIcon sx={{ marginRight: '7px' }} />}
                     selected={selected}
                     setSelected={setSelected}
                 />
@@ -180,7 +170,14 @@ const LeadGenSidebar = () => {
                 <Item
                     title="Personal Info"
                     to={`/viewuser/${userLG._id}`}
-                    icon={<AccountCircleIcon />}
+                    icon={<AccountCircleIcon sx={{ marginRight: '7px' }} />}
+                    selected={selected}
+                    setSelected={setSelected}
+                />
+                <Item
+                    title="Status Logs"
+                    to="/LeadGenTime"
+                    icon={<PermContactCalendarIcon sx={{ marginRight: '7px' }} />}
                     selected={selected}
                     setSelected={setSelected}
                 />
@@ -192,7 +189,7 @@ const LeadGenSidebar = () => {
                 )}
                 <MenuItem
                     title="Sign Out"
-                    icon={<ExitToAppIcon />}
+                    icon={<ExitToAppIcon sx={{ marginRight: '7px' }} />}
                     onClick={handleClick}
                     style={{ color: "white", padding: "10px 25px" }}
                 >
