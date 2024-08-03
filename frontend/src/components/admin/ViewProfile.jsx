@@ -25,6 +25,7 @@ const ViewProfile = ({ onUserUpdate }) => {
     const { id } = useParams();
     const { userlgs, dispatch } = useUsersContext();
     const { userLG } = useAuthContext();
+    const { dispatch: authDispatch } = useAuthContext();
     const [openEditModal, setOpenEditModal] = useState(false);
     const [openStatusModal, setOpenStatusModal] = useState(false);
     const [openImageModal, setOpenImageModal] = useState(false);
@@ -100,6 +101,7 @@ const ViewProfile = ({ onUserUpdate }) => {
                             if (response.ok) {
                                 console.log('Image uploaded successfully', data);
                                 dispatch({ type: 'UPDATE_USER', payload: data });
+                                authDispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: data.profileImage }); // Update profile image in context
                                 setProfileImage(data.profileImage);
                                 setSnackbarMessage('Image uploaded successfully!');
                                 setSnackbarOpen(true);
@@ -138,136 +140,136 @@ const ViewProfile = ({ onUserUpdate }) => {
     return (
         <Container maxWidth="md">
             <Box display="flex" flexDirection="column" alignItems="center" paddingY={3}>
-        <Paper
-            elevation={3}
-            sx={{
-                padding: 6,
-                borderRadius: 6,
-                width: '100%',
-                maxWidth: 800,
-                textAlign: 'center',
-                backgroundColor: '#111827',
-            }}
-        >
-            <Box display="flex" flexDirection="column" alignItems="center">
-                <Box display="flex" justifyContent="flex-end" alignItems="center" marginBottom={4}>
-                    <img
-                        src={process.env.PUBLIC_URL + '/logo.png'}
-                        alt="logo"
-                        style={{ width: '50px', height: '50px', marginRight: '8px' }}
-                    />
-                    <Typography variant="h6" component="h5" style={{ color: '#e0e0e0', fontSize: '1.9rem', marginTop: '2px' }}>Chromagen</Typography>
-                </Box>
-                <Box
+                <Paper
+                    elevation={3}
                     sx={{
-                        width: 200,
-                        height: 200,
-                        borderRadius: '50%',
-                        overflow: 'hidden',
-                        marginBottom: 2,
-                        cursor: 'pointer',
-                        marginLeft: '20px'
-                    }}
-                    onClick={handleMenuClick}
-                >
-                    <img
-                        alt="profile-user"
-                        src={profileImage || process.env.PUBLIC_URL + '/icon.png'}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                </Box>
-                <Menu
-                    anchorEl={anchorEl}
-                    open={openMenu}
-                    onClose={handleCloseMenu}
-                    MenuListProps={{
-                        'aria-labelledby': 'basic-button',
+                        padding: 6,
+                        borderRadius: 6,
+                        width: '100%',
+                        maxWidth: 800,
+                        textAlign: 'center',
+                        backgroundColor: '#111827',
                     }}
                 >
-                    <MenuItem onClick={handleOpenImageModal}>
-                        <VisibilityIcon sx={{ marginRight: 1 }} /> See Profile Picture
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                        <Box display="flex" justifyContent="flex-end" alignItems="center" marginBottom={4}>
+                            <img
+                                src={process.env.PUBLIC_URL + '/logo.png'}
+                                alt="logo"
+                                style={{ width: '50px', height: '50px', marginRight: '8px' }}
+                            />
+                            <Typography variant="h6" component="h5" style={{ color: '#e0e0e0', fontSize: '1.9rem', marginTop: '2px' }}>Chromagen</Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                width: 200,
+                                height: 200,
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                marginBottom: 2,
+                                cursor: 'pointer',
+                                marginLeft: '20px'
+                            }}
+                            onClick={handleMenuClick}
+                        >
+                            <img
+                                alt="profile-user"
+                                src={profileImage || process.env.PUBLIC_URL + '/icon.png'}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                        </Box>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={openMenu}
+                            onClose={handleCloseMenu}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={handleOpenImageModal}>
+                                <VisibilityIcon sx={{ marginRight: 1 }} /> See Profile Picture
                     </MenuItem>
-                    <MenuItem onClick={triggerFileUpload}>
-                        <UploadIcon sx={{ marginRight: 1 }} /> Choose Profile Picture
+                            <MenuItem onClick={triggerFileUpload}>
+                                <UploadIcon sx={{ marginRight: 1 }} /> Choose Profile Picture
                     </MenuItem>
-                </Menu>
-                <input
-                    id="fileInput"
-                    type="file"
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    onChange={handleImageUpload}
-                />
-                <Typography variant="h3" style={{ fontWeight: 'bold', color: 'white', marginTop: '16px', marginLeft: '20px' }}>
-                    {userlg.name}
-                </Typography>
-                <Typography variant="h5" color="#065f46" fontWeight="bold" marginTop="10px" marginLeft= '20px'>
-                    {userlg.role}
-                </Typography>
-                <Typography variant="body1" color="error" fontWeight="bold" marginTop="10px" marginLeft= '20px'>
-                    {userlg.status}
-                </Typography>
-            </Box>
-            <Box marginTop={4} display="flex" justifyContent="center" gap={2} marginLeft= '20px'>
-                <Button variant="contained" sx={{ backgroundColor: '#3e4396' }} onClick={handleOpenEditModal}>
-                    Update Profile
+                        </Menu>
+                        <input
+                            id="fileInput"
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handleImageUpload}
+                        />
+                        <Typography variant="h3" style={{ fontWeight: 'bold', color: 'white', marginTop: '16px', marginLeft: '20px' }}>
+                            {userlg.name}
+                        </Typography>
+                        <Typography variant="h5" color="#065f46" fontWeight="bold" marginTop="10px" marginLeft='20px'>
+                            {userlg.role}
+                        </Typography>
+                        <Typography variant="body1" color="error" fontWeight="bold" marginTop="10px" marginLeft='20px'>
+                            {userlg.status}
+                        </Typography>
+                    </Box>
+                    <Box marginTop={4} display="flex" justifyContent="center" gap={2} marginLeft='20px'>
+                        <Button variant="contained" sx={{ backgroundColor: '#3e4396' }} onClick={handleOpenEditModal}>
+                            Update Profile
                 </Button>
-                <Button variant="contained" sx={{ backgroundColor: '#D22B2B' }} onClick={handleOpenStatusModal}>
-                    Update Status
+                        <Button variant="contained" sx={{ backgroundColor: '#D22B2B' }} onClick={handleOpenStatusModal}>
+                            Update Status
                 </Button>
+                    </Box>
+                    <Grid container spacing={3} marginTop={4} justifyContent="center">
+                        <Grid item xs={12} sm={6}>
+                            <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center' }}>
+                                Employee ID
+                    </Typography>
+                            <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center' }}>
+                                {userlg._id.slice(-8)}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center', marginRight: '60px' }}>
+                                Birthday
+                    </Typography>
+                            <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center', marginRight: '60px' }}>
+                                {formattedBirthday}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center' }}>
+                                Phone Number
+                    </Typography>
+                            <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center' }}>
+                                {userlg.number}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center', marginRight: '60px' }}>
+                                Email
+                    </Typography>
+                            <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center', marginRight: '60px' }}>
+                                {userlg.email}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center' }}>
+                                Address
+                    </Typography>
+                            <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center' }}>
+                                {userlg.homeaddress}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center', marginRight: '60px' }}>
+                                Gender
+                    </Typography>
+                            <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center', marginRight: '60px' }}>
+                                {userlg.gender}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Paper>
             </Box>
-            <Grid container spacing={3} marginTop={4} justifyContent="center">
-                <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center' }}>
-                        Employee ID
-                    </Typography>
-                    <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center' }}>
-                        {userlg._id.slice(-8)}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center', marginRight: '60px' }}>
-                        Birthday
-                    </Typography>
-                    <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center', marginRight: '60px' }}>
-                        {formattedBirthday}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center' }}>
-                        Phone Number
-                    </Typography>
-                    <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center' }}>
-                        {userlg.number}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center', marginRight: '60px' }}>
-                        Email
-                    </Typography>
-                    <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center', marginRight: '60px' }}>
-                        {userlg.email}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center' }}>
-                        Address
-                    </Typography>
-                    <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center' }}>
-                        {userlg.homeaddress}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" style={{ color: '#94e2cd', textAlign: 'center', marginRight: '60px' }}>
-                        Gender
-                    </Typography>
-                    <Typography variant="body1" style={{ color: '#e0e0e0', fontSize: '1.2rem', textAlign: 'center', marginRight: '60px' }}>
-                        {userlg.gender}
-                    </Typography>
-                </Grid>
-            </Grid>
-        </Paper>
-    </Box>
 
             <Modal
                 open={openEditModal}
@@ -352,6 +354,7 @@ const ViewProfile = ({ onUserUpdate }) => {
                             width="100%"
                             src={profileImage || process.env.PUBLIC_URL + '/icon.png'}
                             className="cursor-pointer rounded-full"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                     </Box>
                 </Fade>
